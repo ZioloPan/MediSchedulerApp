@@ -34,12 +34,15 @@ export class CalendarComponent implements OnInit, OnDestroy {
   @Input() appointments: Appointment[] = []; // Właściwość do odbierania wizyt
   @Input() availabilities: Availability[] = [];
   @Input() absences: Absence[] = [];
+  @Input() viewMode: 'doctor' | 'patient' = 'doctor'; // Domyślny tryb
 
   ngOnInit(): void {
     this.timeSlots = this.generateTimeSlots();
     this.initializeWeek();
     this.updateCurrentTime(); // Ustaw aktualny czas
     this.timeUpdater = setInterval(() => this.updateCurrentTime(), 60000); // Aktualizacja co minutę
+
+    console.log("MODE", this.viewMode)
   }
 
   ngOnDestroy(): void {

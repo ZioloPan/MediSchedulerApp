@@ -1,1 +1,11 @@
-<p>patient works!</p>
+<div class="toolbar">
+</div>
+<div class="calendar-container">
+    <app-calendar
+        [appointments]="appointments"
+        [availabilities]="availabilities"
+        [absences]="absences"
+        [viewMode]="'patient'">
+  </app-calendar>
+</div>
+    
