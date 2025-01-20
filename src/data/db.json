@@ -1,278 +1,292 @@
 {
-    "appointments": [
-        {
-            "id": "1",
-            "date": "2025-01-20T00:00:00",
-            "startTime": "10:30",
-            "endTime": "12:30",
-            "type": "CHRONIC_CONDITION",
-            "notes": "Notes for appointment 1.",
-            "firstName": "John",
-            "lastName": "Doe",
-            "age": 45,
-            "gender": "Male"
-        },
-        {
-            "id": "2",
-            "date": "2025-01-24T00:00:00",
-            "startTime": "08:30",
-            "endTime": "10:30",
-            "type": "FOLLOW_UP",
-            "notes": "Notes for appointment 2.",
-            "firstName": "Jane",
-            "lastName": "Smith",
-            "age": 32,
-            "gender": "Female"
-        },
-        {
-            "id": "3",
-            "date": "2025-01-24T00:00:00",
-            "startTime": "11:30",
-            "endTime": "13:30",
-            "type": "FOLLOW_UP",
-            "notes": "Notes for appointment 3.",
-            "firstName": "Michael",
-            "lastName": "Johnson",
-            "age": 50,
-            "gender": "Male"
-        },
-        {
-            "id": "4",
-            "date": "2025-01-22T00:00:00",
-            "startTime": "12:00",
-            "endTime": "13:00",
-            "type": "PRESCRIPTION",
-            "notes": "Notes for appointment 4.",
-            "firstName": "Emily",
-            "lastName": "Davis",
-            "age": 28,
-            "gender": "Female"
-        },
-        {
-            "id": "5",
-            "date": "2025-01-26T00:00:00",
-            "startTime": "12:30",
-            "endTime": "14:30",
-            "type": "FOLLOW_UP",
-            "notes": "Notes for appointment 5.",
-            "firstName": "Daniel",
-            "lastName": "Wilson",
-            "age": 37,
-            "gender": "Male"
-        },
-        {
-            "id": "6",
-            "date": "2025-01-21T00:00:00",
-            "startTime": "10:30",
-            "endTime": "11:00",
-            "type": "PRESCRIPTION",
-            "notes": "Notes for appointment 6.",
-            "firstName": "Sarah",
-            "lastName": "Taylor",
-            "age": 25,
-            "gender": "Female"
-        },
-        {
-            "id": "7",
-            "date": "2025-01-25T00:00:00",
-            "startTime": "09:00",
-            "endTime": "11:00",
-            "type": "PRESCRIPTION",
-            "notes": "Notes for appointment 7.",
-            "firstName": "Christopher",
-            "lastName": "Anderson",
-            "age": 60,
-            "gender": "Male"
-        },
-        {
-            "id": "8",
-            "date": "2025-01-26T00:00:00",
-            "startTime": "15:00",
-            "endTime": "15:30",
-            "type": "CHRONIC_CONDITION",
-            "notes": "Notes for appointment 8.",
-            "firstName": "Olivia",
-            "lastName": "Thomas",
-            "age": 40,
-            "gender": "Female"
-        },
-        {
-            "id": "9",
-            "date": "2025-01-25T00:00:00",
-            "startTime": "11:30",
-            "endTime": "14:00",
-            "type": "PRESCRIPTION",
-            "notes": "Notes for appointment 9.",
-            "firstName": "Matthew",
-            "lastName": "Martinez",
-            "age": 55,
-            "gender": "Male"
-        },
-        {
-            "id": "10",
-            "date": "2025-01-21T00:00:00",
-            "startTime": "11:30",
-            "endTime": "12:30",
-            "type": "FOLLOW_UP",
-            "notes": "Notes for appointment 10.",
-            "firstName": "Sophia",
-            "lastName": "Garcia",
-            "age": 30,
-            "gender": "Female"
-        },
-        {
-            "id": "11",
-            "date": "2025-01-13T00:00:00",
-            "startTime": "09:00",
-            "endTime": "10:00",
-            "type": "FIRST_VISIT",
-            "notes": "Notes for appointment 11.",
-            "firstName": "Alice",
-            "lastName": "Brown",
-            "age": 29,
-            "gender": "Female"
-        },
-        {
-            "id": "12",
-            "date": "2025-01-14T00:00:00",
-            "startTime": "11:00",
-            "endTime": "12:30",
-            "type": "FOLLOW_UP",
-            "notes": "Notes for appointment 12.",
-            "firstName": "George",
-            "lastName": "Clark",
-            "age": 40,
-            "gender": "Male"
-        },
-        {
-            "id": "13",
-            "date": "2025-01-15T00:00:00",
-            "startTime": "13:30",
-            "endTime": "14:30",
-            "type": "PRESCRIPTION",
-            "notes": "Notes for appointment 13.",
-            "firstName": "Emma",
-            "lastName": "Evans",
-            "age": 35,
-            "gender": "Female"
-        },
-        {
-            "id": "14",
-            "date": "2025-01-17T00:00:00",
-            "startTime": "10:00",
-            "endTime": "11:30",
-            "type": "CHRONIC_CONDITION",
-            "notes": "Notes for appointment 14.",
-            "firstName": "Liam",
-            "lastName": "Scott",
-            "age": 50,
-            "gender": "Male"
-        },
-        {
-            "id": "15",
-            "date": "2025-01-18T00:00:00",
-            "startTime": "12:00",
-            "endTime": "13:00",
-            "type": "FOLLOW_UP",
-            "notes": "Notes for appointment 15.",
-            "firstName": "Isabella",
-            "lastName": "Adams",
-            "age": 32,
-            "gender": "Female"
-        },
-        {
-            "id": "16",
-            "date": "2025-01-27T00:00:00",
-            "startTime": "09:00",
-            "endTime": "10:30",
-            "type": "FIRST_VISIT",
-            "notes": "Notes for appointment 16.",
-            "firstName": "Charlotte",
-            "lastName": "Harris",
-            "age": 26,
-            "gender": "Female"
-        },
-        {
-            "id": "17",
-            "date": "2025-01-28T00:00:00",
-            "startTime": "11:30",
-            "endTime": "12:30",
-            "type": "FOLLOW_UP",
-            "notes": "Notes for appointment 17.",
-            "firstName": "Jack",
-            "lastName": "Baker",
-            "age": 41,
-            "gender": "Male"
-        },
-        {
-            "id": "18",
-            "date": "2025-01-30T00:00:00",
-            "startTime": "13:00",
-            "endTime": "14:30",
-            "type": "CHRONIC_CONDITION",
-            "notes": "Notes for appointment 18.",
-            "firstName": "Mia",
-            "lastName": "Turner",
-            "age": 39,
-            "gender": "Female"
-        },
-        {
-            "id": "19",
-            "date": "2025-01-31T00:00:00",
-            "startTime": "08:30",
-            "endTime": "09:30",
-            "type": "PRESCRIPTION",
-            "notes": "Notes for appointment 19.",
-            "firstName": "Ethan",
-            "lastName": "Collins",
-            "age": 48,
-            "gender": "Male"
-        },
-        {
-            "id": "20",
-            "date": "2025-02-01T00:00:00",
-            "startTime": "14:00",
-            "endTime": "15:00",
-            "type": "FOLLOW_UP",
-            "notes": "Notes for appointment 20.",
-            "firstName": "Amelia",
-            "lastName": "Hill",
-            "age": 31,
-            "gender": "Female"
-        }
-    ],
-    "availabilities": [
-        {
-            "id": "1",
-            "type": "RECURRING",
-            "startDate": "2025-01-01",
-            "endDate": "2025-01-31",
-            "daysOfWeek": ["Monday", "Wednesday", "Friday"],
-            "startTime": "08:00",
-            "endTime": "12:00"
-        },
-        {
-            "id": "2",
-            "type": "RECURRING",
-            "startDate": "2025-01-01",
-            "endDate": "2025-01-31",
-            "daysOfWeek": ["Tuesday", "Thursday"],
-            "startTime": "14:00",
-            "endTime": "18:00"
-        },
-        {
-            "id": "3",
-            "type": "ONE_TIME",
-            "startDate": "2025-01-20",
-            "startTime": "15:00",
-            "endTime": "18:00"
-        },
-        {
-            "id": "4",
-            "type": "ONE_TIME",
-            "startDate": "2025-01-25",
-            "startTime": "13:00",
-            "endTime": "15:30"
-        }
-    ]
+  "appointments": [
+    {
+      "id": "1",
+      "date": "2025-01-20T00:00:00",
+      "startTime": "10:30",
+      "endTime": "12:30",
+      "type": "CHRONIC_CONDITION",
+      "notes": "Notes for appointment 1.",
+      "firstName": "John",
+      "lastName": "Doe",
+      "age": 45,
+      "gender": "Male"
+    },
+    {
+      "id": "2",
+      "date": "2025-01-24T00:00:00",
+      "startTime": "08:30",
+      "endTime": "10:30",
+      "type": "FOLLOW_UP",
+      "notes": "Notes for appointment 2.",
+      "firstName": "Jane",
+      "lastName": "Smith",
+      "age": 32,
+      "gender": "Female"
+    },
+    {
+      "id": "3",
+      "date": "2025-01-24T00:00:00",
+      "startTime": "11:30",
+      "endTime": "13:30",
+      "type": "FOLLOW_UP",
+      "notes": "Notes for appointment 3.",
+      "firstName": "Michael",
+      "lastName": "Johnson",
+      "age": 50,
+      "gender": "Male"
+    },
+    {
+      "id": "4",
+      "date": "2025-01-22T00:00:00",
+      "startTime": "12:00",
+      "endTime": "13:00",
+      "type": "PRESCRIPTION",
+      "notes": "Notes for appointment 4.",
+      "firstName": "Emily",
+      "lastName": "Davis",
+      "age": 28,
+      "gender": "Female"
+    },
+    {
+      "id": "5",
+      "date": "2025-01-26T00:00:00",
+      "startTime": "12:30",
+      "endTime": "14:30",
+      "type": "FOLLOW_UP",
+      "notes": "Notes for appointment 5.",
+      "firstName": "Daniel",
+      "lastName": "Wilson",
+      "age": 37,
+      "gender": "Male"
+    },
+    {
+      "id": "6",
+      "date": "2025-01-21T00:00:00",
+      "startTime": "10:30",
+      "endTime": "11:00",
+      "type": "PRESCRIPTION",
+      "notes": "Notes for appointment 6.",
+      "firstName": "Sarah",
+      "lastName": "Taylor",
+      "age": 25,
+      "gender": "Female"
+    },
+    {
+      "id": "7",
+      "date": "2025-01-25T00:00:00",
+      "startTime": "09:00",
+      "endTime": "11:00",
+      "type": "PRESCRIPTION",
+      "notes": "Notes for appointment 7.",
+      "firstName": "Christopher",
+      "lastName": "Anderson",
+      "age": 60,
+      "gender": "Male"
+    },
+    {
+      "id": "8",
+      "date": "2025-01-26T00:00:00",
+      "startTime": "15:00",
+      "endTime": "15:30",
+      "type": "CHRONIC_CONDITION",
+      "notes": "Notes for appointment 8.",
+      "firstName": "Olivia",
+      "lastName": "Thomas",
+      "age": 40,
+      "gender": "Female"
+    },
+    {
+      "id": "9",
+      "date": "2025-01-25T00:00:00",
+      "startTime": "11:30",
+      "endTime": "14:00",
+      "type": "PRESCRIPTION",
+      "notes": "Notes for appointment 9.",
+      "firstName": "Matthew",
+      "lastName": "Martinez",
+      "age": 55,
+      "gender": "Male"
+    },
+    {
+      "id": "10",
+      "date": "2025-01-21T00:00:00",
+      "startTime": "11:30",
+      "endTime": "12:30",
+      "type": "FOLLOW_UP",
+      "notes": "Notes for appointment 10.",
+      "firstName": "Sophia",
+      "lastName": "Garcia",
+      "age": 30,
+      "gender": "Female"
+    },
+    {
+      "id": "11",
+      "date": "2025-01-13T00:00:00",
+      "startTime": "09:00",
+      "endTime": "10:00",
+      "type": "FIRST_VISIT",
+      "notes": "Notes for appointment 11.",
+      "firstName": "Alice",
+      "lastName": "Brown",
+      "age": 29,
+      "gender": "Female"
+    },
+    {
+      "id": "12",
+      "date": "2025-01-14T00:00:00",
+      "startTime": "11:00",
+      "endTime": "12:30",
+      "type": "FOLLOW_UP",
+      "notes": "Notes for appointment 12.",
+      "firstName": "George",
+      "lastName": "Clark",
+      "age": 40,
+      "gender": "Male"
+    },
+    {
+      "id": "13",
+      "date": "2025-01-15T00:00:00",
+      "startTime": "13:30",
+      "endTime": "14:30",
+      "type": "PRESCRIPTION",
+      "notes": "Notes for appointment 13.",
+      "firstName": "Emma",
+      "lastName": "Evans",
+      "age": 35,
+      "gender": "Female"
+    },
+    {
+      "id": "14",
+      "date": "2025-01-17T00:00:00",
+      "startTime": "10:00",
+      "endTime": "11:30",
+      "type": "CHRONIC_CONDITION",
+      "notes": "Notes for appointment 14.",
+      "firstName": "Liam",
+      "lastName": "Scott",
+      "age": 50,
+      "gender": "Male"
+    },
+    {
+      "id": "15",
+      "date": "2025-01-18T00:00:00",
+      "startTime": "12:00",
+      "endTime": "13:00",
+      "type": "FOLLOW_UP",
+      "notes": "Notes for appointment 15.",
+      "firstName": "Isabella",
+      "lastName": "Adams",
+      "age": 32,
+      "gender": "Female"
+    },
+    {
+      "id": "16",
+      "date": "2025-01-27T00:00:00",
+      "startTime": "09:00",
+      "endTime": "10:30",
+      "type": "FIRST_VISIT",
+      "notes": "Notes for appointment 16.",
+      "firstName": "Charlotte",
+      "lastName": "Harris",
+      "age": 26,
+      "gender": "Female"
+    },
+    {
+      "id": "17",
+      "date": "2025-01-28T00:00:00",
+      "startTime": "11:30",
+      "endTime": "12:30",
+      "type": "FOLLOW_UP",
+      "notes": "Notes for appointment 17.",
+      "firstName": "Jack",
+      "lastName": "Baker",
+      "age": 41,
+      "gender": "Male"
+    },
+    {
+      "id": "18",
+      "date": "2025-01-30T00:00:00",
+      "startTime": "13:00",
+      "endTime": "14:30",
+      "type": "CHRONIC_CONDITION",
+      "notes": "Notes for appointment 18.",
+      "firstName": "Mia",
+      "lastName": "Turner",
+      "age": 39,
+      "gender": "Female"
+    },
+    {
+      "id": "19",
+      "date": "2025-01-31T00:00:00",
+      "startTime": "08:30",
+      "endTime": "09:30",
+      "type": "PRESCRIPTION",
+      "notes": "Notes for appointment 19.",
+      "firstName": "Ethan",
+      "lastName": "Collins",
+      "age": 48,
+      "gender": "Male"
+    },
+    {
+      "id": "20",
+      "date": "2025-02-01T00:00:00",
+      "startTime": "14:00",
+      "endTime": "15:00",
+      "type": "FOLLOW_UP",
+      "notes": "Notes for appointment 20.",
+      "firstName": "Amelia",
+      "lastName": "Hill",
+      "age": 31,
+      "gender": "Female"
+    }
+  ],
+  "availabilities": [
+    {
+      "id": "1",
+      "type": "RECURRING",
+      "startDate": "2025-01-01",
+      "endDate": "2025-01-31",
+      "daysOfWeek": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "startTime": "08:00",
+      "endTime": "12:00"
+    },
+    {
+      "id": "2",
+      "type": "RECURRING",
+      "startDate": "2025-01-01",
+      "endDate": "2025-01-31",
+      "daysOfWeek": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "startTime": "14:00",
+      "endTime": "18:00"
+    },
+    {
+      "id": "3",
+      "type": "ONE_TIME",
+      "startDate": "2025-01-20",
+      "startTime": "15:00",
+      "endTime": "18:00"
+    },
+    {
+      "id": "4wer",
+      "type": "ONE_TIME",
+      "startDate": "2025-01-25",
+      "startTime": "13:00",
+      "endTime": "15:30"
+    },
+    {
+      "id": "d79b",
+      "type": "ONE_TIME",
+      "startDate": "2025-01-21",
+      "startTime": "06:00",
+      "endTime": "07:00"
+    }
+  ]
 }

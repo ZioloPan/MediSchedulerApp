@@ -1,5 +1,5 @@
 export interface Availability {
-  id: string;
+  id?: string;
   type: 'RECURRING' | 'ONE_TIME';
   startDate: Date;
   endDate?: Date; 

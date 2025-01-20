@@ -179,28 +179,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
       const isWithinTimeRange =
         slotTime >= availabilityStartTime && slotTime < availabilityEndTime;
   
-      // Logi dla analizy problemu
-      if (normalizedDay.toDateString() === 'Wed Jan 01 2025') {
-        console.log('Log for January 1st:', {
-          availability,
-          day: normalizedDay.toDateString(),
-          slot,
-          startDate: normalizedStartDate.toDateString(),
-          endDate: normalizedEndDate ? normalizedEndDate.toDateString() : 'N/A',
-          dayOfWeek,
-          isWithinDateRange,
-          matchesRecurringDay,
-          slotTime,
-          availabilityStartTime,
-          availabilityEndTime,
-          isWithinTimeRange,
-          finalResult:
-            isWithinDateRange &&
-            (availability.type === 'ONE_TIME' || matchesRecurringDay) &&
-            isWithinTimeRange
-        });
-      }
-  
       // Wynik końcowy
       return isWithinDateRange && (availability.type === 'ONE_TIME' || matchesRecurringDay) && isWithinTimeRange;
     });
