@@ -11,7 +11,6 @@ export class AppointmentService {
 
   constructor(private http: HttpClient) {}
 
-  // Pobierz wszystkie wizyty
   getAll(): Observable<Appointment[]> {
     return this.http.get<Appointment[]>(this.apiUrl);
   }

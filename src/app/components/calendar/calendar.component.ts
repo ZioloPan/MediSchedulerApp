@@ -1,14 +1,15 @@
 import { Component, OnDestroy, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Appointment } from '../../model/Appointment';
+import { Availability } from '../../model/Availability';
 import { ConsultationType } from '../../model/Appointment';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 const CONSULTATION_TYPE_LABELS: { [key in ConsultationType]: string } = {
-  [ConsultationType.FIRST_VISIT]: 'Pierwsza wizyta',
-  [ConsultationType.FOLLOW_UP]: 'Wizyta kontrolna',
-  [ConsultationType.CHRONIC_CONDITION]: 'Choroba przewlekła',
-  [ConsultationType.PRESCRIPTION]: 'Recepta',
+  [ConsultationType.FIRST_VISIT]: 'First Visit',
+  [ConsultationType.FOLLOW_UP]: 'Follow-Up Visit',
+  [ConsultationType.CHRONIC_CONDITION]: 'Chronic Condition',
+  [ConsultationType.PRESCRIPTION]: 'Prescription',
 };
 
 @Component({
@@ -30,15 +31,13 @@ export class CalendarComponent implements OnInit, OnDestroy {
   private timeUpdater: any; // Referencja do `setInterval`
 
   @Input() appointments: Appointment[] = []; // Właściwość do odbierania wizyt
+  @Input() availabilities: Availability[] = [];
 
   ngOnInit(): void {
     this.timeSlots = this.generateTimeSlots();
     this.initializeWeek();
     this.updateCurrentTime(); // Ustaw aktualny czas
     this.timeUpdater = setInterval(() => this.updateCurrentTime(), 60000); // Aktualizacja co minutę
-    console.log('Appointments:', this.appointments);
-    console.log('SelectedWeek:', this.selectedWeek);
-    console.log('TimeSlots:', this.timeSlots);
   }
 
   ngOnDestroy(): void {
@@ -112,30 +111,12 @@ export class CalendarComponent implements OnInit, OnDestroy {
     const appointmentStart = appointment.startTime; // Początek wizyty (HH:mm)
     const appointmentEnd = appointment.endTime; // Koniec wizyty (HH:mm)
   
-    // Logi do debugowania
-    console.log('Checking appointment:', {
-      appointmentDate: appointmentDate.toDateString(),
-      appointmentStart,
-      appointmentEnd,
-      day: day.toDateString(),
-      slot,
-    });
-  
     // Sprawdzenie, czy data wizyty pasuje do dnia z kalendarza
     const isSameDay = appointmentDate.toDateString() === day.toDateString();
   
     // Sprawdzenie, czy slot mieści się w zakresie czasu wizyty
     const isInTimeRange = slot >= appointmentStart && slot < appointmentEnd;
-  
-    // Log szczegółów porównania
-    console.log('Comparison details:', {
-      isSameDay,
-      isInTimeRange,
-      slotFromCalendar: slot,
-      startTimeFromAppointment: appointmentStart,
-      endTimeFromAppointment: appointmentEnd,
-    });
-  
+
     return isSameDay && isInTimeRange;
   }
 
@@ -147,6 +128,84 @@ export class CalendarComponent implements OnInit, OnDestroy {
   
     return appointmentDate < now; // Zwróć true, jeśli wizyta się zakończyła
   }
+
+  isAvailabilityInSlotForBackground(day: Date, slot: string): boolean {
+    return this.availabilities.some(availability => {
+      // Ustawienie endDate na startDate w przypadku typu ONE_TIME
+      const startDate = new Date(availability.startDate);
+      const endDate =
+        availability.type === 'ONE_TIME'
+          ? startDate // ONE_TIME: startDate to także endDate
+          : availability.endDate
+          ? new Date(availability.endDate)
+          : null;
+  
+      // Normalizacja dat do północy
+      const normalizeDate = (date: Date) => {
+        const normalized = new Date(date);
+        normalized.setHours(0, 0, 0, 0);
+        return normalized;
+      };
+  
+      const normalizedDay = normalizeDate(day);
+      const normalizedStartDate = normalizeDate(startDate);
+      const normalizedEndDate = endDate ? normalizeDate(endDate) : null;
+  
+      // Sprawdzenie, czy dzień mieści się w zakresie dat
+      const isWithinDateRange = (!normalizedEndDate || normalizedDay <= normalizedEndDate) && normalizedDay >= normalizedStartDate;
+  
+      // Sprawdzenie, czy dzień tygodnia pasuje do dostępności cyklicznej
+      const dayOfWeek = day.toLocaleDateString('en-US', { weekday: 'long' }) as 
+        | 'Monday'
+        | 'Tuesday'
+        | 'Wednesday'
+        | 'Thursday'
+        | 'Friday'
+        | 'Saturday'
+        | 'Sunday';
+      const matchesRecurringDay =
+        availability.type === 'RECURRING' &&
+        availability.daysOfWeek?.includes(dayOfWeek);
+  
+      // Sprawdzenie, czy slot czasowy mieści się w przedziale dostępności
+      const [slotHours, slotMinutes] = slot.split(':').map(Number);
+      const [startHours, startMinutes] = availability.startTime.split(':').map(Number);
+      const [endHours, endMinutes] = availability.endTime.split(':').map(Number);
+  
+      const slotTime = slotHours * 60 + slotMinutes;
+      const availabilityStartTime = startHours * 60 + startMinutes;
+      const availabilityEndTime = endHours * 60 + endMinutes;
+  
+      const isWithinTimeRange =
+        slotTime >= availabilityStartTime && slotTime < availabilityEndTime;
+  
+      // Logi dla analizy problemu
+      if (normalizedDay.toDateString() === 'Wed Jan 01 2025') {
+        console.log('Log for January 1st:', {
+          availability,
+          day: normalizedDay.toDateString(),
+          slot,
+          startDate: normalizedStartDate.toDateString(),
+          endDate: normalizedEndDate ? normalizedEndDate.toDateString() : 'N/A',
+          dayOfWeek,
+          isWithinDateRange,
+          matchesRecurringDay,
+          slotTime,
+          availabilityStartTime,
+          availabilityEndTime,
+          isWithinTimeRange,
+          finalResult:
+            isWithinDateRange &&
+            (availability.type === 'ONE_TIME' || matchesRecurringDay) &&
+            isWithinTimeRange
+        });
+      }
+  
+      // Wynik końcowy
+      return isWithinDateRange && (availability.type === 'ONE_TIME' || matchesRecurringDay) && isWithinTimeRange;
+    });
+  }
+  
   
 
   getAppointmentsCount(day: Date): number {

@@ -148,4 +148,10 @@ button {
     border: 1px solid #ddd; /* Delikatne obramowanie */
   }
 
+    /* Styl dla komórek z dostępnością */
+    .slot-cell.available {
+        background-color: rgba(0, 255, 0, 0.1); /* Jasnozielone tło */
+        position: relative; /* Zapewnia prawidłowe nakładanie innych elementów */
+    }
+
   

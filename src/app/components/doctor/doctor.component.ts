@@ -4,7 +4,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { CalendarComponent } from '../calendar/calendar.component';
 
 import { AppointmentService } from '../../service/appointment.service';
+import { AvailabilityService } from '../../service/availability.service';
 import { Appointment } from '../../model/Appointment';
+import { Availability } from '../../model/Availability';
 
 @Component({
   standalone: true,
@@ -19,14 +21,31 @@ import { Appointment } from '../../model/Appointment';
 })
 export class DoctorComponent implements OnInit {
   appointments: Appointment[] = [];
+  availabilities: Availability[] = [];
 
-  constructor(private appointmentService: AppointmentService) {}
+  constructor(
+    private appointmentService: AppointmentService,
+    private availabilityService: AvailabilityService
+  ) {}
 
   ngOnInit(): void {
     this.getAllAppointments();
+    this.getAllAvailabilities();
   }
 
+  // Pobranie wszystkich wizyt
   getAllAppointments(): void {
-    this.appointmentService.getAll().subscribe(data => (this.appointments = data));
+    this.appointmentService.getAll().subscribe(data => {
+      this.appointments = data;
+      console.log('Appointments:', this.appointments);
+    });
+  }
+
+  // Pobranie wszystkich dostępności
+  getAllAvailabilities(): void {
+    this.availabilityService.getAll().subscribe(data => {
+      this.availabilities = data;
+      console.log('Availabilities:', this.availabilities);
+    });
   }
 }
