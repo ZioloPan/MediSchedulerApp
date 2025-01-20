@@ -1,0 +1,50 @@
+<div class="calendar-header">
+    <button mat-icon-button (click)="onPreviousClick()">&#8249;</button>
+    <button mat-icon-button (click)="onNextClick()">&#8250;</button>
+</div>
+<div class="calendar-table-container">
+    <table mat-table class="calendar-table">
+        <thead>
+            <tr>
+              <th class="time-slot-header"></th>
+              <th *ngFor="let day of selectedWeek; let i = index"
+                  [class.current-day]="i === currentDayIndex" class="day-header">
+                <div>
+                    <div>{{ day | date: 'EEEE, MMM d' }}</div>
+                    <div>(Consultations: {{ getAppointmentsCount(day) }})</div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+        <tbody>
+            <tr *ngFor="let slot of timeSlots; let slotIndex = index">
+                <td class="time-slot">{{ slot }}</td>
+                <td *ngFor="let day of selectedWeek; let i = index" class="slot-cell" [class.current-day]="i === currentDayIndex">
+                    <!-- Wyświetlenie wizyty, jeśli istnieje dla danego dnia i przedziału czasowego -->
+                    <div *ngFor="let appointment of appointments">
+                        <div *ngIf="isAppointmentInSlot(appointment, day, slot)" 
+                             class="appointment"
+                             [ngClass]="{
+                               'appointment-first-visit': appointment.type === 'FIRST_VISIT',
+                               'appointment-follow-up': appointment.type === 'FOLLOW_UP',
+                               'appointment-chronic-condition': appointment.type === 'CHRONIC_CONDITION',
+                               'appointment-prescription': appointment.type === 'PRESCRIPTION',
+                               'appointment-past': isPastAppointment(appointment)
+                             }"
+                             [title]="getAppointmentDetails(appointment)">
+                          <p>
+                            {{ appointment.firstName }} {{ appointment.lastName }} - {{ getConsultationTypeLabel(appointment.type) }}
+                          </p>
+                        </div>
+                      </div>
+                    
+
+                    <!-- Opcjonalna linia czerwonego wskaźnika dla obecnego czasu -->
+                    <div *ngIf="i === currentDayIndex && slotIndex === currentSlotIndex" 
+                         class="red-line" 
+                         [style.top]="redLinePosition"></div>
+                </td>
+            </tr>      
+        </tbody>
+    </table>
+</div>
