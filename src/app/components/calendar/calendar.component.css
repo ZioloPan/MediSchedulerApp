@@ -84,6 +84,19 @@ button {
     background-color: #f0f8ff; /* Jasnoniebieskie tło */
 }
 
+/* Nakładka dla absencji */
+.absence-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 0, 0, 0.3); /* Czerwone półprzezroczyste tło */
+    z-index: 2; /* Maskowanie nad wizytami i dostępnościami */
+    pointer-events: none; /* Zapobiega interakcji */
+}
+
+
 .slot-cell {
     text-align: center;
     border: 1px solid #ddd;
@@ -108,36 +121,36 @@ button {
     background-color: red;
     z-index: 10;
     top: 0; /* Domyślnie linia zaczyna od góry */
-  }
+}
 
 
   /* Kolory dla typów konsultacji */
 .appointment-first-visit {
     background-color: #ffeb99; /* Jasny żółty */
     color: #000; /* Ciemny tekst dla kontrastu */
-  }
-  
-  .appointment-follow-up {
+}
+
+.appointment-follow-up {
     background-color: #cce5ff; /* Jasny niebieski */
     color: #000;
-  }
-  
-  .appointment-chronic-condition {
+}
+
+.appointment-chronic-condition {
     background-color: #e8ccff; /* Jasny fioletowy */
     color: #000;
-  }
-  
-  .appointment-prescription {
+}
+
+.appointment-prescription {
     background-color: #ffcce5; /* Jasny różowy */
     color: #000;
-  }
+}
 
-  .appointment-past {
+.appointment-past {
     opacity: 0.5; /* Wyszarzenie za pomocą przezroczystości */
-  }
+}
   
-  /* Ogólny styl dla wizyt */
-  .appointment {
+/* Ogólny styl dla wizyt */
+.appointment {
     border-radius: 4px;
     padding: 8px;
     font-size: 12px;
@@ -146,12 +159,17 @@ button {
     margin: 4px 0;
     overflow: hidden; /* Zapobiega wyjściu tekstu poza blok */
     border: 1px solid #ddd; /* Delikatne obramowanie */
-  }
+}
 
-    /* Styl dla komórek z dostępnością */
-    .slot-cell.available {
-        background-color: rgba(0, 255, 0, 0.1); /* Jasnozielone tło */
-        position: relative; /* Zapewnia prawidłowe nakładanie innych elementów */
-    }
+/* Styl dla komórek z dostępnością */
+.slot-cell.available {
+    background-color: rgba(0, 255, 0, 0.1); /* Jasnozielone tło */
+    position: relative; /* Zapewnia prawidłowe nakładanie innych elementów */
+}
 
-  
+/* Dostępności ukryte pod maską */
+.slot-cell.available.absence {
+    background-color: transparent !important;
+    pointer-events: none;
+    z-index: 0;
+}

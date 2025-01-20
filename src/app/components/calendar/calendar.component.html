@@ -22,7 +22,12 @@
               <td *ngFor="let day of selectedWeek; let i = index" 
                   class="slot-cell"
                   [class.current-day]="i === currentDayIndex"
-                  [class.available]="isAvailabilityInSlotForBackground(day, slot)">
+                  [class.available]="isAvailabilityInSlotForBackground(day, slot) && !isDayCoveredByAbsence(day)">
+                  
+                  <!-- Nakładka dla absencji -->
+                  <div *ngIf="isDayCoveredByAbsence(day)" 
+                       class="absence-mask"></div>
+
                   <!-- Wyświetlenie wizyty -->
                   <div *ngFor="let appointment of appointments">
                       <div *ngIf="isAppointmentInSlot(appointment, day, slot)" 
@@ -40,6 +45,10 @@
                           </p>
                       </div>
                   </div>
+
+                  <!-- Ukrywanie dostępności w dniach z absencją -->
+                  <div *ngIf="!isDayCoveredByAbsence(day) && isAvailabilityInSlotForBackground(day, slot)" 
+                       class="availability"></div>
 
                   <!-- Linia czerwonego wskaźnika dla obecnego czasu -->
                   <div *ngIf="i === currentDayIndex && slotIndex === currentSlotIndex" 

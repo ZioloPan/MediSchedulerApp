@@ -287,6 +287,30 @@
       "startDate": "2025-01-21",
       "startTime": "06:00",
       "endTime": "07:00"
+    },
+    {
+      "id": "dea8",
+      "type": "ONE_TIME",
+      "startDate": "2025-02-01",
+      "startTime": "07:00",
+      "endTime": "08:00"
+    }
+  ],
+  "absences": [
+    {
+      "id": "1",
+      "startDate": "2025-01-28",
+      "endDate": "2025-01-29"
+    },
+    {
+      "id": "2",
+      "startDate": "2025-02-01",
+      "endDate": "2025-02-05"
+    },
+    {
+      "id": "fdad",
+      "startDate": "2025-02-05",
+      "endDate": "2025-02-06"
     }
   ]
 }

@@ -33,17 +33,12 @@ export class AddAvailabilityComponent {
   save(): void {
     this.availabilityService.add(this.availability).subscribe({
       next: (newAvailability) => {
-        console.log('Added availability:', newAvailability);
-        this.dialogRef.close(newAvailability); // Zamknięcie dialogu i zwrócenie danych
+        this.dialogRef.close(newAvailability); 
       },
-      error: (err) => {
-        console.error('Failed to add availability:', err);
-      }
     });
   }
-  
 
   cancel(): void {
-    this.dialogRef.close(); // Zamknięcie dialogu bez zapisu
+    this.dialogRef.close();
   }
 }

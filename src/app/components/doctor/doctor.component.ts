@@ -3,12 +3,15 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { CalendarComponent } from '../calendar/calendar.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { AddAvailabilityComponent } from '../add-availability/add-availability.component';
+import { AddAbsenceComponent } from '../add-absence/add-absence.component';
 
-import { AppointmentService } from '../../service/appointment.service';
-import { AvailabilityService } from '../../service/availability.service';
 import { Appointment } from '../../model/Appointment';
 import { Availability } from '../../model/Availability';
-import { AddAvailabilityComponent } from '../add-availability/add-availability.component';
+import { Absence } from '../../model/Absence';
+import { AppointmentService } from '../../service/appointment.service';
+import { AvailabilityService } from '../../service/availability.service';
+import { AbsenceService } from '../../service/absence.service';
 
 @Component({
   standalone: true,
@@ -25,16 +28,19 @@ import { AddAvailabilityComponent } from '../add-availability/add-availability.c
 export class DoctorComponent implements OnInit {
   appointments: Appointment[] = [];
   availabilities: Availability[] = [];
+  absences: Absence[] = [];
 
   constructor(
     private appointmentService: AppointmentService,
     private availabilityService: AvailabilityService,
+    private absenceService: AbsenceService,
     private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     this.getAllAppointments();
     this.getAllAvailabilities();
+    this.getAllAbsences();
   }
 
   // Pobranie wszystkich wizyt
@@ -53,6 +59,13 @@ export class DoctorComponent implements OnInit {
     });
   }
 
+  getAllAbsences(): void {
+    this.absenceService.getAll().subscribe(data => {
+      this.absences = data;
+      console.log('Absences:', this.absences);
+    });
+  }
+
   addAvailability(): void {
     const dialogRef = this.dialog.open(AddAvailabilityComponent, {
       width: '50%',
@@ -63,6 +76,20 @@ export class DoctorComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result: Availability | undefined) => {
       if (result) {
         this.availabilities.push(result);
+      }
+    });
+  }
+
+  addAbsence(): void {
+    const dialogRef = this.dialog.open(AddAbsenceComponent, {
+      width: '50%',
+      exitAnimationDuration: '1000ms',
+      enterAnimationDuration: '1000ms'
+    });
+  
+    dialogRef.afterClosed().subscribe((result: Absence | undefined) => {
+      if (result) {
+        this.absences.push(result);
       }
     });
   }

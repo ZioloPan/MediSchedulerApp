@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Appointment } from '../../model/Appointment';
 import { Availability } from '../../model/Availability';
+import { Absence } from '../../model/Absence';
 import { ConsultationType } from '../../model/Appointment';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -32,6 +33,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   @Input() appointments: Appointment[] = []; // Właściwość do odbierania wizyt
   @Input() availabilities: Availability[] = [];
+  @Input() absences: Absence[] = [];
 
   ngOnInit(): void {
     this.timeSlots = this.generateTimeSlots();
@@ -183,9 +185,34 @@ export class CalendarComponent implements OnInit, OnDestroy {
       return isWithinDateRange && (availability.type === 'ONE_TIME' || matchesRecurringDay) && isWithinTimeRange;
     });
   }
-  
-  
 
+  isDayCoveredByAbsence(day: Date): boolean {
+    return this.absences.some(absence => {
+      // Konwersja daty na obiekt typu Date
+      const startDate = new Date(absence.startDate);
+      const endDate = absence.endDate ? new Date(absence.endDate) : null;
+  
+      // Normalizacja dat
+      const normalizeDate = (date: Date) => {
+        const normalized = new Date(date);
+        normalized.setHours(0, 0, 0, 0);
+        return normalized;
+      };
+  
+      const normalizedDay = normalizeDate(day);
+      const normalizedStartDate = normalizeDate(startDate);
+      const normalizedEndDate = endDate ? normalizeDate(endDate) : null;
+  
+      // Sprawdzanie, czy dzień mieści się w zakresie absencji
+      return (
+        normalizedDay >= normalizedStartDate &&
+        (normalizedEndDate ? normalizedDay <= normalizedEndDate : true)
+      );
+    });
+  }
+  
+  
+  
   getAppointmentsCount(day: Date): number {
     return this.appointments.filter(appointment => {
       const appointmentDate = new Date(appointment.date);
