@@ -5,6 +5,9 @@ import { Availability } from '../../model/Availability';
 import { Absence } from '../../model/Absence';
 import { ConsultationType } from '../../model/Appointment';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { AddAppointmentComponent } from '../add-appointment/add-appointment.component';
+import { MatDialog } from '@angular/material/dialog';
+import { AppointmentService } from '../../service/appointment.service';
 
 const CONSULTATION_TYPE_LABELS: { [key in ConsultationType]: string } = {
   [ConsultationType.FIRST_VISIT]: 'First Visit',
@@ -35,6 +38,11 @@ export class CalendarComponent implements OnInit, OnDestroy {
   @Input() availabilities: Availability[] = [];
   @Input() absences: Absence[] = [];
   @Input() viewMode: 'doctor' | 'patient' = 'doctor'; // Domyślny tryb
+
+  constructor(
+    private dialog: MatDialog,
+    private appointmentService: AppointmentService,
+  ) {}
 
   ngOnInit(): void {
     this.timeSlots = this.generateTimeSlots();
@@ -260,6 +268,42 @@ export class CalendarComponent implements OnInit, OnDestroy {
   onNextClick(): void {
     this.changeWeek('next');
     this.updateCurrentDayIndex();
+  }
+
+  // Funkcja wywoływana przy kliknięciu na slot
+  onSlotClick(day: Date, slot: string): void {
+    if (this.viewMode === 'patient' && this.isAvailabilityInSlotForBackground(day, slot) && !this.hasAppointment(day, slot)) {
+      // Otwórz dialog AddAppointment
+      const dialogRef = this.dialog.open(AddAppointmentComponent, {
+        width: '400px',
+        data: {
+          day,
+          slot,
+          availabilities: this.availabilities,
+          appointments: this.appointments
+        }
+      });
+
+      // Przetwarzanie wyniku zamknięcia dialogu (np. odświeżenie widoku)
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          console.log('New appointment added:', result);
+          this.loadAppointments()
+        }
+      });
+    }
+  }
+
+  loadAppointments(): void {
+    // Reload appointments, e.g., by emitting an event or fetching them from the service
+    this.appointmentService.getAll().subscribe(data => {
+      this.appointments = data;
+    });
+  }
+
+  // Sprawdzanie, czy w danym slocie istnieje już wizyta
+  hasAppointment(day: Date, slot: string): boolean {
+    return this.appointments.some((appointment) => this.isAppointmentInSlot(appointment, day, slot));
   }
 }
 

@@ -239,6 +239,54 @@
       "lastName": "Hill",
       "age": 31,
       "gender": "Female"
+    },
+    {
+      "id": "338a",
+      "date": "2025-01-21",
+      "startTime": "06:00",
+      "endTime": "06:30",
+      "type": "FOLLOW_UP",
+      "firstName": "Bartosz",
+      "lastName": "Zieliński",
+      "age": 2,
+      "gender": "Male",
+      "notes": "abc"
+    },
+    {
+      "id": "1089",
+      "date": "2025-01-21",
+      "startTime": "06:30",
+      "endTime": "07:00",
+      "type": "FIRST_VISIT",
+      "firstName": "sdf",
+      "lastName": "sdf",
+      "age": 1,
+      "gender": "Male",
+      "notes": "asdasd"
+    },
+    {
+      "id": "16ee",
+      "date": "2025-01-21T23:00:00.000Z",
+      "startTime": "08:00",
+      "endTime": "08:30",
+      "type": "FIRST_VISIT",
+      "firstName": "sdf",
+      "lastName": "dsf",
+      "age": 3,
+      "gender": "Male",
+      "notes": "asd"
+    },
+    {
+      "id": "e200",
+      "date": "2025-01-21T23:00:00.000Z",
+      "startTime": "08:30",
+      "endTime": "10:00",
+      "type": "FIRST_VISIT",
+      "firstName": "dfg",
+      "lastName": "dfg",
+      "age": 1,
+      "gender": "Female",
+      "notes": "2222"
     }
   ],
   "availabilities": [
