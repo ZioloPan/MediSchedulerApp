@@ -298,8 +298,11 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   // Funkcja wywoływana przy kliknięciu na slot
   onSlotClick(day: Date, slot: string): void {
+    if (this.isDayCoveredByAbsence(day)) {
+      return;
+    }
+  
     if (this.viewMode === 'patient' && this.isAvailabilityInSlotForBackground(day, slot) && !this.hasAppointment(day, slot)) {
-      // Otwórz dialog AddAppointment
       this.changeDetectorRef.detach();
       const dialogRef = this.dialog.open(AddAppointmentComponent, {
         width: '400px',
@@ -307,30 +310,27 @@ export class CalendarComponent implements OnInit, OnDestroy {
           day,
           slot,
           availabilities: this.availabilities,
-          appointments: this.appointments
-        }
+          appointments: this.appointments,
+        },
       });
-
-      // Przetwarzanie wyniku zamknięcia dialogu (np. odświeżenie widoku)
+  
       dialogRef.afterClosed().subscribe((result) => {
         this.changeDetectorRef.reattach();
-
+  
         if (result) {
           console.log('New appointment added:', result);
-          this.loadAppointments()
+          this.loadAppointments();
         }
       });
     }
   }
 
   loadAppointments(): void {
-    // Reload appointments, e.g., by emitting an event or fetching them from the service
     this.appointmentService.getAll().subscribe(data => {
       this.appointments = data;
     });
   }
 
-  // Sprawdzanie, czy w danym slocie istnieje już wizyta
   hasAppointment(day: Date, slot: string): boolean {
     return this.appointments.some((appointment) => this.isAppointmentInSlot(appointment, day, slot));
   }
