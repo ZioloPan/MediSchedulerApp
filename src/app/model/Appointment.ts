@@ -7,7 +7,7 @@ export enum ConsultationType {
 
 export interface Appointment {
     id?: string;
-    date: Date;
+    date: string;
     startTime: string;
     endTime: string;
     type: ConsultationType;

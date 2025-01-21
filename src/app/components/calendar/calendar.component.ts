@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, Input } from '@angular/core';
+import { Component, OnDestroy, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Appointment } from '../../model/Appointment';
 import { Availability } from '../../model/Availability';
@@ -42,6 +42,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   constructor(
     private dialog: MatDialog,
     private appointmentService: AppointmentService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -123,13 +124,13 @@ export class CalendarComponent implements OnInit, OnDestroy {
     const appointmentDate = new Date(appointment.date); // Konwersja daty wizyty
     const appointmentStart = appointment.startTime; // Początek wizyty (HH:mm)
     const appointmentEnd = appointment.endTime; // Koniec wizyty (HH:mm)
-  
+    
     // Sprawdzenie, czy data wizyty pasuje do dnia z kalendarza
     const isSameDay = appointmentDate.toDateString() === day.toDateString();
-  
+    
     // Sprawdzenie, czy slot mieści się w zakresie czasu wizyty
     const isInTimeRange = slot >= appointmentStart && slot < appointmentEnd;
-
+  
     return isSameDay && isInTimeRange;
   }
 
@@ -221,8 +222,33 @@ export class CalendarComponent implements OnInit, OnDestroy {
       );
     });
   }
+
+  isAppointmentCoveredByAbsence(appointment: Appointment): boolean {
+    const result = this.absences.some(absence => {
+      const absenceStart = new Date(absence.startDate);
+      const absenceEnd = absence.endDate ? new Date(absence.endDate) : absenceStart;
   
+      const appointmentDate = new Date(appointment.date);
   
+      const normalizeDate = (date: Date) => {
+        const normalized = new Date(date);
+        normalized.setHours(0, 0, 0, 0);
+        return normalized;
+      };
+  
+      const normalizedAbsenceStart = normalizeDate(absenceStart);
+      const normalizedAbsenceEnd = normalizeDate(absenceEnd);
+      const normalizedAppointmentDate = normalizeDate(appointmentDate);
+  
+      const isCovered =
+        normalizedAppointmentDate >= normalizedAbsenceStart &&
+        normalizedAppointmentDate <= normalizedAbsenceEnd;
+  
+      return isCovered;
+    });
+
+    return result;
+  }
   
   getAppointmentsCount(day: Date): number {
     return this.appointments.filter(appointment => {
@@ -274,6 +300,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   onSlotClick(day: Date, slot: string): void {
     if (this.viewMode === 'patient' && this.isAvailabilityInSlotForBackground(day, slot) && !this.hasAppointment(day, slot)) {
       // Otwórz dialog AddAppointment
+      this.changeDetectorRef.detach();
       const dialogRef = this.dialog.open(AddAppointmentComponent, {
         width: '400px',
         data: {
@@ -286,6 +313,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
       // Przetwarzanie wyniku zamknięcia dialogu (np. odświeżenie widoku)
       dialogRef.afterClosed().subscribe((result) => {
+        this.changeDetectorRef.reattach();
+
         if (result) {
           console.log('New appointment added:', result);
           this.loadAppointments()

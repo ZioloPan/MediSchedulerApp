@@ -1,42 +1,58 @@
-.form-container {
-    width: 100%;
-    max-width: 400px;
-    margin: auto;
-    padding: 16px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-  }
-  
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-  
-  label {
-    font-weight: bold;
-  }
-  
-  mat-select, input, textarea {
-    width: 100%;
-  }
-  
-  textarea {
-    resize: vertical;
-  }
-  
-  .button-group {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .readonly-field {
-    font-weight: bold;
-    color: #555;
-    padding: 8px 0;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 16px;
-  }
-  
+mat-card {
+  max-width: 500px; 
+  padding: 16px;
+}
+
+
+mat-card-title {
+  margin-bottom: 16px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+mat-select, input, textarea {
+  width: 100%; 
+}
+
+textarea {
+  resize: vertical; 
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between; 
+  margin-top: 16px;
+}
+
+button {
+  min-width: 100px; 
+}
+
+.readonly-field {
+  font-weight: bold;
+  color: #555;
+  padding: 8px 0;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 4px;
+  display: block;
+}

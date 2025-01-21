@@ -1,12 +1,11 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Appointment } from '../model/Appointment';
-import { Firestore, collection, getDocs, addDoc, Timestamp, DocumentData } from '@angular/fire/firestore';
-// Uwaga: Timestamp można też spróbować importować z 'firebase/firestore'
+import { Firestore, collection, getDocs, addDoc, DocumentData } from '@angular/fire/firestore';
 import { from, map, Observable, of } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AppointmentService {
   private apiUrl = 'http://localhost:3000/appointments';
@@ -19,39 +18,21 @@ export class AppointmentService {
   getAll(): Observable<Appointment[]> {
     if (this.mode === 'firebase') {
       return from(getDocs(collection(this.firestore, 'appointments'))).pipe(
-        map(snapshot => {
-          return snapshot.docs.map(doc => {
-            // doc.data() to typ DocumentData
+        map((snapshot) =>
+          snapshot.docs.map((doc) => {
             const data = doc.data() as DocumentData;
 
-            let parsedDate: Date;
-            if (data['date'] instanceof Timestamp) {
-              // Firestore Timestamp → Date
-              parsedDate = data['date'].toDate();
-            } else {
-              // Załóżmy, że to string (lub cokolwiek innego)
-              parsedDate = new Date(data['date']);
-            }
-
-            // Składamy finalny obiekt:
+            // Zakładamy, że data jest przechowywana jako string w Firestore
             return {
               ...data,
               id: doc.id,
-              date: parsedDate
+              date: typeof data['date'] === 'string' ? data['date'] : '', // Upewniamy się, że data to string
             } as Appointment;
-          });
-        })
-      );
-    } else if (this.mode === 'jsonserver') {
-      return this.http.get<Appointment[]>(this.apiUrl).pipe(
-        map(appointments =>
-          appointments.map(app => ({
-            ...app,
-            // JSON server najczęściej zwraca string daty:
-            date: new Date(app.date)
-          }))
+          })
         )
       );
+    } else if (this.mode === 'jsonserver') {
+      return this.http.get<Appointment[]>(this.apiUrl);
     } else {
       return of([]);
     }
@@ -59,11 +40,15 @@ export class AppointmentService {
 
   add(appointment: Appointment): Observable<Appointment> {
     if (this.mode === 'firebase') {
-      // Zapisujemy, niech Firestore sam tworzy Timestamp
-      return from(addDoc(collection(this.firestore, 'appointments'), appointment)).pipe(
-        map(docRef => {
-          // Zwracamy to samo + ID
-          return { ...appointment, id: docRef.id } as Appointment;
+      // Zapisujemy datę jako string
+      const appointmentToSave = {
+        ...appointment,
+        date: appointment.date, // Data jest już stringiem
+      };
+
+      return from(addDoc(collection(this.firestore, 'appointments'), appointmentToSave)).pipe(
+        map((docRef) => {
+          return { ...appointmentToSave, id: docRef.id } as Appointment;
         })
       );
     } else if (this.mode === 'jsonserver') {

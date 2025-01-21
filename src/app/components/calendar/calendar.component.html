@@ -45,11 +45,12 @@
                 'appointment-follow-up': appointment.type === 'FOLLOW_UP',
                 'appointment-chronic-condition': appointment.type === 'CHRONIC_CONDITION',
                 'appointment-prescription': appointment.type === 'PRESCRIPTION',
-                'appointment-past': isPastAppointment(appointment)
+                'appointment-past': isPastAppointment(appointment),
+                'appointment-covered-by-absence': isAppointmentCoveredByAbsence(appointment)
               }"
               [title]="getAppointmentDetails(appointment)"
             >
-              <p>
+              <p [ngClass]="{'text-strikethrough': isAppointmentCoveredByAbsence(appointment)}">
                 {{ appointment.firstName }} {{ appointment.lastName }} - {{ getConsultationTypeLabel(appointment.type) }}
               </p>
             </div>

@@ -84,6 +84,18 @@ button {
     background-color: #f0f8ff; /* Jasnoniebieskie tło */
 }
 
+/* Wyszarzenie wizyty pokrytej absencją */
+.appointment-covered-by-absence {
+    background-color: rgba(128, 128, 128, 0.5); /* Szare, półprzezroczyste tło */
+    border: 20px solid #a9a9a9; /* Szary obrys */
+  }
+  
+  /* Przekreślenie tekstu w wizycie pokrytej absencją */
+  .text-strikethrough {
+    text-decoration: line-through;
+    color: #a9a9a9; /* Szary tekst */
+  }
+
 /* Nakładka dla absencji */
 .absence-mask {
     position: absolute;

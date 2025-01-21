@@ -58,6 +58,6 @@ export class AddAbsenceComponent {
     const startDate = new Date(this.absence.startDate);
     const endDate = new Date(this.absence.endDate);
   
-    return endDate > startDate;
+    return endDate >= startDate;
   }
 }
