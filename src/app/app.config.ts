@@ -4,6 +4,6 @@ import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes) // Dodanie dostawcy routingu
+    provideRouter(routes)
   ],
 };

@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { CalendarComponent } from '../calendar/calendar.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { BasketComponent } from '../basket/basket.component';
 
 import { Appointment } from '../../model/Appointment';
 import { Availability } from '../../model/Availability';
@@ -32,6 +33,8 @@ export class PatientComponent implements OnInit {
     private appointmentService: AppointmentService,
     private availabilityService: AvailabilityService,
     private absenceService: AbsenceService,
+    private dialog: MatDialog,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
 
@@ -41,7 +44,6 @@ export class PatientComponent implements OnInit {
     this.getAllAbsences();
   }
 
-  // Pobranie wszystkich wizyt
   getAllAppointments(): void {
     this.appointmentService.getAll().subscribe(data => {
       this.appointments = data;
@@ -49,7 +51,6 @@ export class PatientComponent implements OnInit {
     });
   }
 
-  // Pobranie wszystkich dostępności
   getAllAvailabilities(): void {
     this.availabilityService.getAll().subscribe(data => {
       this.availabilities = data;
@@ -61,6 +62,21 @@ export class PatientComponent implements OnInit {
     this.absenceService.getAll().subscribe(data => {
       this.absences = data;
       console.log('Absences:', this.absences);
+    });
+  }
+
+  openBasket(): void {
+    this.changeDetectorRef.detach();
+  
+    const dialogRef = this.dialog.open(BasketComponent, {
+      width: '80%', 
+      data: this.appointments, 
+    });
+  
+    dialogRef.afterClosed().subscribe(() => {
+      this.changeDetectorRef.reattach();
+  
+      this.getAllAppointments();
     });
   }
 }

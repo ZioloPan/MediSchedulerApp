@@ -93,7 +93,6 @@ export class AddAvailabilityComponent {
     this.dialogRef.close();
   }
 
-  // Generate time slots
   private generateTimeSlots(): string[] {
     const slots: string[] = [];
     for (let hour = 0; hour < 24; hour++) {

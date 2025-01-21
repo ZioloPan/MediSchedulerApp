@@ -41,17 +41,17 @@
               *ngIf="isAppointmentInSlot(appointment, day, slot)"
               class="appointment"
               [ngClass]="{
-                'appointment-first-visit': appointment.type === 'FIRST_VISIT',
-                'appointment-follow-up': appointment.type === 'FOLLOW_UP',
-                'appointment-chronic-condition': appointment.type === 'CHRONIC_CONDITION',
-                'appointment-prescription': appointment.type === 'PRESCRIPTION',
+                'appointment-first-visit': appointment.type === 'First Visit',
+                'appointment-follow-up': appointment.type === 'Follow-Up Visit',
+                'appointment-chronic-condition': appointment.type === 'Chronic Condition',
+                'appointment-prescription': appointment.type === 'Prescription',
                 'appointment-past': isPastAppointment(appointment),
                 'appointment-covered-by-absence': isAppointmentCoveredByAbsence(appointment)
               }"
               [title]="getAppointmentDetails(appointment)"
             >
               <p [ngClass]="{'text-strikethrough': isAppointmentCoveredByAbsence(appointment)}">
-                {{ appointment.firstName }} {{ appointment.lastName }} - {{ getConsultationTypeLabel(appointment.type) }}
+                {{ appointment.firstName }} {{ appointment.lastName }} - {{ (appointment.type) }}
               </p>
             </div>
           </div>

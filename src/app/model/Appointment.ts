@@ -1,19 +1,13 @@
-export enum ConsultationType {
-    FIRST_VISIT = 'FIRST_VISIT',
-    FOLLOW_UP = 'FOLLOW_UP',
-    CHRONIC_CONDITION = 'CHRONIC_CONDITION',
-    PRESCRIPTION = 'PRESCRIPTION',
-}
-
 export interface Appointment {
     id?: string;
     date: string;
     startTime: string;
     endTime: string;
-    type: ConsultationType;
+    type: 'First Visit' | 'Follow-Up Visit' | 'Chronic Condition' | 'Prescription';
     notes: string;
     firstName: string; 
     lastName: string;  
     age: number;       
-    gender: string;    
+    gender: string; 
+    isPayed: boolean;   
 }

@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Appointment } from '../model/Appointment';
-import { Firestore, collection, getDocs, addDoc, DocumentData } from '@angular/fire/firestore';
+import { Firestore, collection, getDocs, addDoc, DocumentData, doc, updateDoc} from '@angular/fire/firestore';
 import { from, map, Observable, of } from 'rxjs';
 
 @Injectable({
@@ -57,4 +57,25 @@ export class AppointmentService {
       return of({} as Appointment);
     }
   }
+
+  update(appointment: Appointment): Observable<void> {
+    if (this.mode === 'firebase') {
+      // Firebase: aktualizujemy dokument na podstawie ID
+      const appointmentRef = collection(this.firestore, 'appointments');
+      if (!appointment.id) {
+        throw new Error('Appointment ID is required for update in Firebase.');
+      }
+      const docRef = doc(appointmentRef, appointment.id);
+      return from(updateDoc(docRef, { ...appointment }));
+    } else if (this.mode === 'jsonserver') {
+      // JSON Server: aktualizujemy rekord przez PATCH/PUT
+      if (!appointment.id) {
+        throw new Error('Appointment ID is required for update in JSON Server.');
+      }
+      return this.http.put<void>(`${this.apiUrl}/${appointment.id}`, appointment);
+    } else {
+      // W trybie "database" nic nie robimy
+      return of();
+    }
+  }  
 }

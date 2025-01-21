@@ -1,83 +1,47 @@
 {
   "appointments": [
     {
-      "id": "65d2",
-      "date": "2025-01-22",
-      "startTime": "02:00",
-      "endTime": "04:30",
-      "type": "FOLLOW_UP",
-      "firstName": "2",
-      "lastName": "2",
-      "age": 2,
-      "gender": "Male",
-      "notes": "asdas"
-    },
-    {
-      "id": "91b0",
-      "date": "2025-01-22",
-      "startTime": "01:00",
-      "endTime": "01:30",
-      "type": "FIRST_VISIT",
-      "firstName": "sad",
+      "id": "a8db",
+      "date": "2025-01-21",
+      "startTime": "03:30",
+      "endTime": "04:00",
+      "type": "Follow-Up Visit",
+      "firstName": "asd",
       "lastName": "asd",
       "age": 23,
-      "gender": "Female",
-      "notes": "asd"
-    },
-    {
-      "id": "16ef",
-      "date": "2025-01-23",
-      "startTime": "11:30",
-      "endTime": "13:00",
-      "type": "FIRST_VISIT",
-      "firstName": "asd",
-      "lastName": "ads",
-      "age": null,
-      "gender": "Female",
-      "notes": "asd"
-    },
-    {
-      "id": "26ba",
-      "date": "2025-01-17",
-      "startTime": "04:00",
-      "endTime": "04:30",
-      "type": "FIRST_VISIT",
-      "firstName": "asdasd",
-      "lastName": "asdasd",
-      "age": 0,
       "gender": "Male",
-      "notes": "asd"
+      "notes": "asd",
+      "isPayed": true
+    },
+    {
+      "id": "66a4",
+      "date": "2025-01-21",
+      "startTime": "02:30",
+      "endTime": "03:00",
+      "type": "Chronic Condition",
+      "firstName": "asdas",
+      "lastName": "dasdas",
+      "age": 232,
+      "gender": "Female",
+      "notes": "",
+      "isPayed": true
     }
   ],
   "availabilities": [
     {
-      "id": "80e1",
-      "type": "RECURRING",
-      "startDate": "2025-01-01",
-      "startTime": "00:30",
-      "endTime": "07:00",
-      "endDate": "2025-01-31",
-      "daysOfWeek": [
-        "Tuesday",
-        "Wednesday",
-        "Friday",
-        "Saturday",
-        "Sunday"
-      ]
+      "id": "b16e",
+      "type": "ONE_TIME",
+      "startDate": "2025-01-21",
+      "startTime": "01:30",
+      "endTime": "05:30"
     },
     {
-      "id": "12f0",
+      "id": "a2f9",
       "type": "ONE_TIME",
-      "startDate": "2025-01-23",
-      "startTime": "04:30",
-      "endTime": "13:00"
+      "startDate": "2025-01-24",
+      "startTime": "01:30",
+      "endTime": "11:30"
     }
   ],
-  "absences": [
-    {
-      "id": "0e8c",
-      "startDate": "2025-01-22",
-      "endDate": "2025-01-22"
-    }
-  ]
+  "absences": []
 }

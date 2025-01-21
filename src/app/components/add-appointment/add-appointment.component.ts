@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { Appointment, ConsultationType } from '../../model/Appointment';
+import { Appointment } from '../../model/Appointment';
 import { AppointmentService } from '../../service/appointment.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Inject } from '@angular/core';
@@ -29,7 +29,12 @@ import { MatCardModule } from '@angular/material/card';
 export class AddAppointmentComponent {
   appointment: Appointment;
 
-  consultationTypes = Object.values(ConsultationType);
+  consultationTypes: ('First Visit' | 'Follow-Up Visit' | 'Chronic Condition' | 'Prescription')[] = [
+    'First Visit',
+    'Follow-Up Visit',
+    'Chronic Condition',
+    'Prescription',
+  ];
   availableEndTimes: string[] = []; 
 
   constructor(
@@ -41,12 +46,13 @@ export class AddAppointmentComponent {
       date: data.day, 
       startTime: data.slot,
       endTime: '',
-      type: ConsultationType.FIRST_VISIT,
+      type: 'First Visit',
       firstName: '',
       lastName: '',
       age: 0,
       gender: 'Male',
       notes: '',
+      isPayed: false
     };
     this.calculateAvailableEndTimes();
   }

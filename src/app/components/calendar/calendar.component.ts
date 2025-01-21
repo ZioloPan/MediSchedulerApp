@@ -3,18 +3,10 @@ import { CommonModule } from '@angular/common';
 import { Appointment } from '../../model/Appointment';
 import { Availability } from '../../model/Availability';
 import { Absence } from '../../model/Absence';
-import { ConsultationType } from '../../model/Appointment';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AddAppointmentComponent } from '../add-appointment/add-appointment.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AppointmentService } from '../../service/appointment.service';
-
-const CONSULTATION_TYPE_LABELS: { [key in ConsultationType]: string } = {
-  [ConsultationType.FIRST_VISIT]: 'First Visit',
-  [ConsultationType.FOLLOW_UP]: 'Follow-Up Visit',
-  [ConsultationType.CHRONIC_CONDITION]: 'Chronic Condition',
-  [ConsultationType.PRESCRIPTION]: 'Prescription',
-};
 
 @Component({
   standalone: true,
@@ -58,10 +50,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
     if (this.timeUpdater) {
       clearInterval(this.timeUpdater); // Usuń interwał po zniszczeniu komponentu
     }
-  }
-
-  getConsultationTypeLabel(type: ConsultationType): string {
-    return CONSULTATION_TYPE_LABELS[type];
   }
 
   // Funkcja inicjalizująca przedziały czasowe co 30 minut
@@ -263,7 +251,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
       Last Name: ${appointment.lastName}
       Age: ${appointment.age}
       Gender: ${appointment.gender}
-      Consultation Type: ${this.getConsultationTypeLabel(appointment.type)}
+      Consultation Type: ${appointment.type}
       Date: ${new Date(appointment.date).toLocaleDateString()}
       Time: ${appointment.startTime} - ${appointment.endTime}
       Notes: ${appointment.notes}

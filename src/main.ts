@@ -18,7 +18,7 @@ bootstrapApplication(AppComponent, {
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
-    importProvidersFrom(HttpClientModule, MatCardModule, MatNativeDateModule), // Rejestracja HttpClientModule
+    importProvidersFrom(HttpClientModule, MatCardModule, MatNativeDateModule),
     provideNoopAnimations(),
     provideRouter(routes),
   ],

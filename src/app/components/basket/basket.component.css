@@ -1,0 +1,21 @@
+.appointments-container {
+    margin: 20px;
+}
+  
+.appointment-item {
+    margin-bottom: 10px;
+}
+  
+.appointment-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+  
+.actions {
+    display: flex;
+    margin-top: 20px;
+    justify-content: space-between;
+    padding: 10px;
+}
+  
