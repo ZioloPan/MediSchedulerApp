@@ -32,7 +32,6 @@ export class PatientComponent implements OnInit {
     private appointmentService: AppointmentService,
     private availabilityService: AvailabilityService,
     private absenceService: AbsenceService,
-    private dialog: MatDialog
   ) {}
 
 

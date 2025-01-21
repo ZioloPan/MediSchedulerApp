@@ -48,80 +48,145 @@ export class AddAppointmentComponent {
       gender: 'Male',
       notes: '',
     };
-
     this.calculateAvailableEndTimes();
   }
 
   calculateAvailableEndTimes(): void {
+    console.log('--- calculateAvailableEndTimes START ---');
+  
     if (!this.data.availabilities) {
       console.error('No availabilities provided.');
       return;
     }
-
-    const selectedStartTime = this.appointment.startTime;
-    const selectedDate = this.appointment.date;
-    const availabilities = this.data.availabilities;
-    const appointments = this.data.appointments || []; 
-
-    const timeToMinutes = (time: string): number => {
-      const [hours, minutes] = time.split(':').map(Number);
-      return hours * 60 + minutes;
+  
+    // Pomocnicza funkcja formatująca Date -> 'YYYY-MM-DD' w strefie lokalnej
+    const toLocalDateString = (date: Date): string => {
+      const year = date.getFullYear();
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const day = date.getDate().toString().padStart(2, '0');
+      return `${year}-${month}-${day}`; 
     };
-
-    const startTimeInMinutes = timeToMinutes(selectedStartTime);
-
-    const matchingAvailability = availabilities.find((avail) => {
-      const startDate = new Date(avail.startDate);
-      const endDate = avail.endDate ? new Date(avail.endDate) : null;
-
-      const isDateInRange = new Date(selectedDate) >= startDate && (!endDate || new Date(selectedDate) <= endDate);
-
-      const dayOfWeek = new Date(selectedDate).toLocaleDateString('en-US', { weekday: 'long' }) as 
-        'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
-
-      const isDayMatch = avail.type === 'RECURRING'
-        ? avail.daysOfWeek?.includes(dayOfWeek)
-        : true;
-
-      return isDateInRange && isDayMatch;
+  
+    // Funkcja "HH:mm" -> minuty od północy
+    const timeToMinutes = (time: string): number => {
+      const [hh, mm] = time.split(':').map(Number);
+      return hh * 60 + mm;
+    };
+  
+    // Obiekty i stringi
+    const selectedDateObj = new Date(this.appointment.date);
+    const selectedDateStr = toLocalDateString(selectedDateObj);
+    const selectedDayOfWeek = selectedDateObj.toLocaleDateString('en-US', { weekday: 'long' }) as
+      'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
+  
+    console.log('Selected date (object):', selectedDateObj);
+    console.log('Selected date (local YYYY-MM-DD):', selectedDateStr);
+  
+    const startTimeInMinutes = timeToMinutes(this.appointment.startTime);
+    console.log('Selected start time:', this.appointment.startTime, `(minutes = ${startTimeInMinutes})`);
+  
+    // Filtrujemy dostępności
+    const filteredAvailabilities = this.data.availabilities.filter((avail) => {
+      if (avail.type === 'ONE_TIME') {
+        // Dla ONE_TIME data musi się równać startDate
+        return avail.startDate === selectedDateStr;
+      } else {
+        // Dla RECURRING: 
+        // 1) Czy dayOfWeek pasuje?
+        if (!avail.daysOfWeek?.includes(selectedDayOfWeek)) return false;
+  
+        // 2) Czy data >= startDate?
+        const dateObj = new Date(selectedDateStr);
+        const startRangeObj = new Date(avail.startDate);
+        if (dateObj < startRangeObj) return false;
+  
+        // 3) Jeśli jest endDate, czy data <= endDate?
+        if (avail.endDate) {
+          const endRangeObj = new Date(avail.endDate);
+          if (dateObj > endRangeObj) return false;
+        }
+  
+        return true;
+      }
     });
-
-    if (!matchingAvailability) {
-      console.warn('No matching availability found for the selected date.');
+  
+    console.log('Filtered availabilities:', filteredAvailabilities);
+  
+    // Które z nich faktycznie obejmują startTime?
+    const coveringAvailabilities = filteredAvailabilities.filter((avail) => {
+      const availStart = timeToMinutes(avail.startTime);
+      const availEnd = timeToMinutes(avail.endTime);
+      // startTime musi być >= availStart, a < availEnd
+      return startTimeInMinutes >= availStart && startTimeInMinutes < availEnd;
+    });
+  
+    console.log('Availabilities covering startTime:', coveringAvailabilities);
+  
+    if (coveringAvailabilities.length === 0) {
+      console.warn('No availability covers the selected start time.');
+      this.availableEndTimes = [];
+      this.appointment.endTime = '';
       return;
     }
-
-    const availabilityStartTime = timeToMinutes(matchingAvailability.startTime);
-    const availabilityEndTime = timeToMinutes(matchingAvailability.endTime);
-
-    let maxEndTime = availabilityEndTime;
-
-    const conflictingAppointment = appointments.find((appointment) => {
-      const appointmentDate = new Date(appointment.date).toDateString();
-      if (appointmentDate !== new Date(selectedDate).toDateString()) return false;
-
-      const appointmentStartTime = timeToMinutes(appointment.startTime);
-      return appointmentStartTime > startTimeInMinutes;
-    });
-
-    if (conflictingAppointment) {
-      maxEndTime = Math.min(maxEndTime, timeToMinutes(conflictingAppointment.startTime));
+  
+    // Wybierz jedną (np. pierwszą) dostępność
+    const matchingAvailability = coveringAvailabilities[0];
+    console.log('Chosen availability:', matchingAvailability);
+  
+    let maxEndTime = timeToMinutes(matchingAvailability.endTime);
+    console.log('Initial maxEndTime:', maxEndTime);
+  
+    // Szukamy wizyt w tym samym dniu, które zaczynają się PO startTime
+    const sameDayAppointments = (this.data.appointments || []).filter((apt) =>
+      new Date(apt.date).toDateString() === selectedDateObj.toDateString()
+    );
+  
+    // Najwcześniej zaczynająca się wizyta po naszym startTime
+    const conflictingApt = sameDayAppointments.reduce<Appointment | null>((earliest, apt) => {
+      const aptStart = timeToMinutes(apt.startTime);
+      if (aptStart > startTimeInMinutes) {
+        if (!earliest || aptStart < timeToMinutes(earliest.startTime)) {
+          return apt;
+        }
+      }
+      return earliest;
+    }, null);
+  
+    if (conflictingApt) {
+      const conflictingStartMin = timeToMinutes(conflictingApt.startTime);
+      console.log('Found conflicting appointment at:', conflictingApt.startTime, `(minutes = ${conflictingStartMin})`);
+      maxEndTime = Math.min(maxEndTime, conflictingStartMin);
+    } else {
+      console.log('No conflicting appointment found after', this.appointment.startTime);
     }
-
+  
+    console.log('Final maxEndTime:', maxEndTime);
+  
+    // Generujemy dostępne czasy zakończenia
     const durations = [30, 60, 90, 120, 150, 180, 210, 240];
     this.availableEndTimes = durations
-      .map((duration) => startTimeInMinutes + duration)
-      .filter((endTime) => endTime <= maxEndTime)
-      .map((endTime) => {
-        const hours = Math.floor(endTime / 60).toString().padStart(2, '0');
-        const minutes = (endTime % 60).toString().padStart(2, '0');
-        return `${hours}:${minutes}`;
+      .map((d) => startTimeInMinutes + d)
+      .filter((endM) => endM <= maxEndTime)
+      .map((endM) => {
+        const hh = String(Math.floor(endM / 60)).padStart(2, '0');
+        const mm = String(endM % 60).padStart(2, '0');
+        return `${hh}:${mm}`;
       });
-
+  
+    console.log('Available end times:', this.availableEndTimes);
+  
+    // Ustaw domyślny endTime
     if (this.availableEndTimes.length > 0) {
       this.appointment.endTime = this.availableEndTimes[0];
+      console.log('Default endTime set to', this.appointment.endTime);
+    } else {
+      this.appointment.endTime = '';
+      console.warn('No possible end times found.');
     }
+  
+    console.log('--- calculateAvailableEndTimes END ---');
   }
+  
 
   save(): void {
     const date = new Date(this.appointment.date);

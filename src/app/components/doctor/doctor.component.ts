@@ -69,8 +69,6 @@ export class DoctorComponent implements OnInit {
     this.changeDetectorRef.detach();
     const dialogRef = this.dialog.open(AddAvailabilityComponent, {
       width: '50%',
-      exitAnimationDuration: '1000ms',
-      enterAnimationDuration: '1000ms',
     });
 
     dialogRef.afterClosed().subscribe((result: Availability | undefined) => {
@@ -87,8 +85,6 @@ export class DoctorComponent implements OnInit {
 
     const dialogRef = this.dialog.open(AddAbsenceComponent, {
       width: '50%',
-      exitAnimationDuration: '1000ms',
-      enterAnimationDuration: '1000ms'
     });
 
     dialogRef.afterClosed().subscribe((result: Absence | undefined) => {
