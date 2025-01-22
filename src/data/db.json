@@ -27,30 +27,108 @@
       "isPayed": true
     },
     {
-      "id": "377c",
+      "id": "776c",
       "date": "2025-01-23",
-      "startTime": "00:30",
-      "endTime": "01:00",
+      "startTime": "03:00",
+      "endTime": "04:30",
+      "type": "First Visit",
+      "firstName": "asd",
+      "lastName": "asd",
+      "age": 2,
+      "gender": "Male",
+      "notes": "",
+      "isPayed": true
+    },
+    {
+      "id": "a8fb",
+      "date": "2025-01-23",
+      "startTime": "02:00",
+      "endTime": "02:30",
       "type": "First Visit",
       "firstName": "asd",
       "lastName": "asd",
       "age": 22,
       "gender": "Male",
-      "notes": "asd",
+      "notes": "",
+      "isPayed": false
+    },
+    {
+      "id": "d458",
+      "date": "2025-01-17",
+      "startTime": "04:30",
+      "endTime": "07:30",
+      "type": "Chronic Condition",
+      "firstName": "jhk",
+      "lastName": "hjk",
+      "age": 8,
+      "gender": "Male",
+      "notes": "jkl",
       "isPayed": true
     },
     {
-      "id": "ff13",
-      "date": "2025-01-26",
-      "startTime": "16:00",
-      "endTime": "17:00",
+      "id": "5188",
+      "date": "2025-01-18",
+      "startTime": "02:30",
+      "endTime": "03:30",
       "type": "First Visit",
-      "firstName": "s",
-      "lastName": "s",
-      "age": 0,
+      "firstName": "Bartosz",
+      "lastName": "hjk",
+      "age": 1,
       "gender": "Male",
-      "notes": "sad",
+      "notes": "hjk",
       "isPayed": true
+    },
+    {
+      "id": "3857",
+      "date": "2025-01-28",
+      "startTime": "01:00",
+      "endTime": "02:00",
+      "type": "Follow-Up Visit",
+      "firstName": "kl;",
+      "lastName": "kkl;",
+      "age": 0,
+      "gender": "Female",
+      "notes": "",
+      "isPayed": false
+    },
+    {
+      "id": "80ae",
+      "date": "2025-01-28",
+      "startTime": "03:00",
+      "endTime": "05:00",
+      "type": "First Visit",
+      "firstName": "fdg",
+      "lastName": "dfg",
+      "age": 45,
+      "gender": "Male",
+      "notes": "",
+      "isPayed": false
+    },
+    {
+      "id": "61e9",
+      "date": "2025-01-28",
+      "startTime": "02:00",
+      "endTime": "03:00",
+      "type": "First Visit",
+      "firstName": "ghj",
+      "lastName": "678jh",
+      "age": 678,
+      "gender": "Male",
+      "notes": "hgj",
+      "isPayed": false
+    },
+    {
+      "id": "9619",
+      "date": "2025-01-17",
+      "startTime": "02:30",
+      "endTime": "04:30",
+      "type": "First Visit",
+      "firstName": "h6",
+      "lastName": "5h",
+      "age": 6,
+      "gender": "Male",
+      "notes": "fgh",
+      "isPayed": false
     }
   ],
   "availabilities": [
@@ -95,6 +173,32 @@
       "startDate": "2025-01-26",
       "startTime": "01:30",
       "endTime": "17:30"
+    },
+    {
+      "id": "bad9",
+      "type": "ONE_TIME",
+      "startDate": "2025-01-16",
+      "startTime": "00:30",
+      "endTime": "01:00"
+    },
+    {
+      "id": "291a",
+      "type": "ONE_TIME",
+      "startDate": "2025-01-17",
+      "startTime": "02:30",
+      "endTime": "07:30"
+    },
+    {
+      "id": "53a1",
+      "type": "RECURRING",
+      "startDate": "2025-01-01",
+      "startTime": "01:00",
+      "endTime": "10:00",
+      "endDate": "2025-01-31",
+      "daysOfWeek": [
+        "Tuesday",
+        "Thursday"
+      ]
     }
   ],
   "absences": [
@@ -122,6 +226,16 @@
       "id": "7e42",
       "startDate": "2025-01-20",
       "endDate": "2025-01-20"
+    },
+    {
+      "id": "89ee",
+      "startDate": "2025-01-23",
+      "endDate": "2025-01-23"
+    },
+    {
+      "id": "c39e",
+      "startDate": "2025-01-16",
+      "endDate": "2025-01-16"
     }
   ]
 }

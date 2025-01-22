@@ -1,15 +1,31 @@
 <div class="calendar-header">
+  <!-- Strzałki przesunięte maksymalnie w lewo -->
   <button mat-icon-button (click)="onPreviousClick()">&#8249;</button>
   <button mat-icon-button (click)="onNextClick()">&#8250;</button>
+
+  <!-- "spacer" aby wypchnąć przyciski toggla na prawo -->
+  <span class="spacer"></span>
+
+  <!-- Materialowy group button -->
+  <mat-button-toggle-group
+    [value]="calendarViewMode"
+    (change)="toggleCalendarMode($event.value)"
+    appearance="standard"
+  >
+    <mat-button-toggle value="week">WEEK</mat-button-toggle>
+    <mat-button-toggle value="day">DAY</mat-button-toggle>
+  </mat-button-toggle-group>
 </div>
 <div class="calendar-table-container">
   <table mat-table class="calendar-table">
     <thead>
       <tr>
+        <!-- Time column header -->
         <th class="time-slot-header"></th>
+        <!-- Day columns -->
         <th
-          *ngFor="let day of selectedWeek; let i = index"
-          [class.current-day]="i === currentDayIndex"
+          *ngFor="let day of displayedDays"
+          [class.current-day]="isCurrentDay(day)"
           class="day-header"
         >
           <div>
@@ -21,21 +37,21 @@
     </thead>
     <tbody>
       <tr *ngFor="let slot of timeSlots; let slotIndex = index">
+        <!-- Time slot label on the left column -->
         <td class="time-slot">{{ slot }}</td>
+        
+        <!-- One cell per displayed day -->
         <td
-          *ngFor="let day of selectedWeek; let i = index"
+          *ngFor="let day of displayedDays; let i = index"
           class="slot-cell"
-          [class.current-day]="i === currentDayIndex"
+          [class.current-day]="isCurrentDay(day)"
           [class.available]="isAvailabilityInSlotForBackground(day, slot) && !isDayCoveredByAbsence(day)"
           (click)="onSlotClick(day, slot)"
         >
-          <!-- Nakładka dla absencji -->
-          <div
-            *ngIf="isDayCoveredByAbsence(day)"
-            class="absence-mask"
-          ></div>
+          <!-- Mask for absences -->
+          <div *ngIf="isDayCoveredByAbsence(day)" class="absence-mask"></div>
 
-          <!-- Wyświetlenie wizyty -->
+          <!-- Render appointments in this slot -->
           <div *ngFor="let appointment of appointments">
             <div
               *ngIf="isAppointmentInSlot(appointment, day, slot)"
@@ -52,20 +68,21 @@
               (click)="onAppointmentClick(appointment, $event)"
             >
               <p [ngClass]="{'text-strikethrough': isAppointmentCoveredByAbsence(appointment)}">
-                {{ appointment.firstName }} {{ appointment.lastName }} - {{ (appointment.type) }}
+                {{ appointment.firstName }} {{ appointment.lastName }}
+                - {{ appointment.type }}
               </p>
             </div>
           </div>
 
-          <!-- Ukrywanie dostępności w dniach z absencją -->
+          <!-- Show availability background if not absent -->
           <div
             *ngIf="!isDayCoveredByAbsence(day) && isAvailabilityInSlotForBackground(day, slot)"
             class="availability"
           ></div>
 
-          <!-- Linia czerwonego wskaźnika dla obecnego czasu -->
+          <!-- Red line if this is the current day and current slot -->
           <div
-            *ngIf="i === currentDayIndex && slotIndex === currentSlotIndex"
+            *ngIf="isCurrentDay(day) && slotIndex === currentSlotIndex"
             class="red-line"
             [style.top]="redLinePosition"
           ></div>
