@@ -7,6 +7,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { AddAppointmentComponent } from '../add-appointment/add-appointment.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AppointmentService } from '../../service/appointment.service';
+import { ConfirmCancelDialogComponent } from '../cancel-appointment/cancel-appointment.component'; 
+
 
 @Component({
   standalone: true,
@@ -321,6 +323,30 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   hasAppointment(day: Date, slot: string): boolean {
     return this.appointments.some((appointment) => this.isAppointmentInSlot(appointment, day, slot));
+  }
+
+  onAppointmentClick(appointment: Appointment, event: MouseEvent): void {
+    // Zapobiegamy propagacji kliknięcia do rodzica (klik w slot)
+    event.stopPropagation();
+  
+    // Otwieramy okno dialogowe z pytaniem o potwierdzenie
+    const dialogRef = this.dialog.open(ConfirmCancelDialogComponent, {
+      width: '400px',
+      data: {
+        message: 'You are going to cancel an appointment. Are you sure?'
+      }
+    });
+  
+    // Po zamknięciu dialogu sprawdzamy, co wybrał użytkownik
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'yes') {
+        // Jeśli potwierdził, usuwamy wizytę z bazy
+        this.appointmentService.delete(appointment).subscribe(() => {
+          // Po usunięciu odświeżamy listę wizyt
+          this.loadAppointments();
+        });
+      }
+    });
   }
 }
 

@@ -49,6 +49,7 @@
                 'appointment-covered-by-absence': isAppointmentCoveredByAbsence(appointment)
               }"
               [title]="getAppointmentDetails(appointment)"
+              (click)="onAppointmentClick(appointment, $event)"
             >
               <p [ngClass]="{'text-strikethrough': isAppointmentCoveredByAbsence(appointment)}">
                 {{ appointment.firstName }} {{ appointment.lastName }} - {{ (appointment.type) }}

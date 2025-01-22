@@ -1,8 +1,12 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Appointment } from '../model/Appointment';
-import { Firestore, collection, getDocs, addDoc, DocumentData, doc, updateDoc} from '@angular/fire/firestore';
+import {
+  Firestore, collection, getDocs, addDoc, DocumentData,
+  doc, updateDoc, deleteDoc
+} from '@angular/fire/firestore';
 import { from, map, Observable, of } from 'rxjs';
+import { environment } from '../../environments/environment'; // <-- Import środowiska
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +15,8 @@ export class AppointmentService {
   private apiUrl = 'http://localhost:3000/appointments';
   private firestore = inject(Firestore);
 
-  public mode: 'firebase' | 'jsonserver' | 'database' = 'jsonserver';
+  private mode: 'firebase' | 'jsonserver' | 'database' =
+    environment.databaseMode as 'firebase' | 'jsonserver' | 'database';
 
   constructor(private http: HttpClient) {}
 
@@ -21,12 +26,10 @@ export class AppointmentService {
         map((snapshot) =>
           snapshot.docs.map((doc) => {
             const data = doc.data() as DocumentData;
-
-            // Zakładamy, że data jest przechowywana jako string w Firestore
             return {
               ...data,
               id: doc.id,
-              date: typeof data['date'] === 'string' ? data['date'] : '', // Upewniamy się, że data to string
+              date: typeof data['date'] === 'string' ? data['date'] : '',
             } as Appointment;
           })
         )
@@ -40,12 +43,10 @@ export class AppointmentService {
 
   add(appointment: Appointment): Observable<Appointment> {
     if (this.mode === 'firebase') {
-      // Zapisujemy datę jako string
       const appointmentToSave = {
         ...appointment,
-        date: appointment.date, // Data jest już stringiem
+        date: appointment.date,
       };
-
       return from(addDoc(collection(this.firestore, 'appointments'), appointmentToSave)).pipe(
         map((docRef) => {
           return { ...appointmentToSave, id: docRef.id } as Appointment;
@@ -60,22 +61,41 @@ export class AppointmentService {
 
   update(appointment: Appointment): Observable<void> {
     if (this.mode === 'firebase') {
-      // Firebase: aktualizujemy dokument na podstawie ID
-      const appointmentRef = collection(this.firestore, 'appointments');
       if (!appointment.id) {
         throw new Error('Appointment ID is required for update in Firebase.');
       }
+      const appointmentRef = collection(this.firestore, 'appointments');
       const docRef = doc(appointmentRef, appointment.id);
       return from(updateDoc(docRef, { ...appointment }));
     } else if (this.mode === 'jsonserver') {
-      // JSON Server: aktualizujemy rekord przez PATCH/PUT
       if (!appointment.id) {
         throw new Error('Appointment ID is required for update in JSON Server.');
       }
       return this.http.put<void>(`${this.apiUrl}/${appointment.id}`, appointment);
     } else {
-      // W trybie "database" nic nie robimy
       return of();
     }
-  }  
+  }
+
+  delete(appointment: Appointment): Observable<void> {
+    if (this.mode === 'firebase') {
+      if (!appointment.id) {
+        throw new Error('Appointment ID is required for delete in Firebase.');
+      }
+      const appointmentRef = collection(this.firestore, 'appointments');
+      const docRef = doc(appointmentRef, appointment.id);
+      return from(deleteDoc(docRef)).pipe(
+        map(() => {
+          return;
+        })
+      );
+    } else if (this.mode === 'jsonserver') {
+      if (!appointment.id) {
+        throw new Error('Appointment ID is required for delete in JSON Server.');
+      }
+      return this.http.delete<void>(`${this.apiUrl}/${appointment.id}`);
+    } else {
+      return of();
+    }
+  }
 }

@@ -25,6 +25,19 @@
       "gender": "Female",
       "notes": "",
       "isPayed": true
+    },
+    {
+      "id": "377c",
+      "date": "2025-01-23",
+      "startTime": "00:30",
+      "endTime": "01:00",
+      "type": "First Visit",
+      "firstName": "asd",
+      "lastName": "asd",
+      "age": 22,
+      "gender": "Male",
+      "notes": "asd",
+      "isPayed": false
     }
   ],
   "availabilities": [
@@ -41,7 +54,42 @@
       "startDate": "2025-01-24",
       "startTime": "01:30",
       "endTime": "11:30"
+    },
+    {
+      "id": "c881",
+      "type": "ONE_TIME",
+      "startDate": "2025-01-25",
+      "startTime": "02:00",
+      "endTime": "04:30"
+    },
+    {
+      "id": "c408",
+      "type": "ONE_TIME",
+      "startDate": "2025-01-23",
+      "startTime": "00:30",
+      "endTime": "13:00"
     }
   ],
-  "absences": []
+  "absences": [
+    {
+      "id": "3265",
+      "startDate": "2025-01-21",
+      "endDate": "2025-01-21"
+    },
+    {
+      "id": "a45e",
+      "startDate": "2025-01-21",
+      "endDate": "2025-01-22"
+    },
+    {
+      "id": "ecd5",
+      "startDate": "2025-01-24",
+      "endDate": "2025-01-24"
+    },
+    {
+      "id": "c155",
+      "startDate": "2025-01-24",
+      "endDate": "2025-01-25"
+    }
+  ]
 }

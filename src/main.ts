@@ -11,7 +11,7 @@ import { routes } from './app/app.routes';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatNativeDateModule } from '@angular/material/core';
-import { environment } from './app/environments/environment';
+import { environment } from './environments/environment'; // <-- Import środowiska
 
 bootstrapApplication(AppComponent, {
   providers: [
