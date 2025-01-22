@@ -129,6 +129,19 @@
       "gender": "Male",
       "notes": "fgh",
       "isPayed": false
+    },
+    {
+      "id": "6985",
+      "date": "2025-01-26",
+      "startTime": "02:30",
+      "endTime": "04:00",
+      "type": "First Visit",
+      "firstName": "    font-family: 'Roboto', sans-serif; ",
+      "lastName": "ont-family: 'Roboto', sans-serif; ",
+      "age": 0,
+      "gender": "Male",
+      "notes": "l;'",
+      "isPayed": false
     }
   ],
   "availabilities": [

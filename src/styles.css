@@ -3,4 +3,5 @@ html, body {
     padding: 0;
     overflow: hidden; 
     height: 100%;
+    font-family: 'Arial', sans-serif;
 }
