@@ -9,5 +9,5 @@ export const environment = {
       appId: '1:785023264234:web:b61fe9d8a01ee71419be93'
     },
 
-    databaseMode: 'firebase' // 'firebase', 'jsonserver'
+    databaseMode: 'jsonserver' // 'firebase', 'jsonserver'
 };

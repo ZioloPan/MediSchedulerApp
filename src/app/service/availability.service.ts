@@ -1,9 +1,12 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Availability } from '../model/Availability';
-import { Firestore, collection, getDocs, addDoc } from '@angular/fire/firestore';
 import { from, map, Observable, of } from 'rxjs';
-import { environment } from '../../environments/environment'; // <-- Import środowiska
+import { Availability } from '../model/Availability';
+
+import { environment } from '../../environments/environment';
+import { Firestore, collection, getDocs, addDoc } from '@angular/fire/firestore';
+
+
 
 @Injectable({
   providedIn: 'root'

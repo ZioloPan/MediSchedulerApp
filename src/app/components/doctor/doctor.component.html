@@ -1,7 +1,14 @@
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
 <div class="toolbar">
   <div class="buttons">
     <button mat-raised-button (click)="addAvailability()" color="primary">Add Availability</button>
     <button mat-raised-button (click)="addAbsence()" color="primary">Add Absence</button>
+  </div>
+  <span class="spacer"></span>
+  <div class="center-content">
+    <img src="assets/images/logo.png" alt="Logo" class="logo" />
+    <span>MediScheduler</span>
   </div>
 </div>
 <div class="calendar-container">
@@ -12,4 +19,5 @@
     [viewMode]="'doctor'">
   </app-calendar>
 </div>
+
   

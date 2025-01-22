@@ -1,9 +1,10 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Absence } from '../model/Absence';
-import { Firestore, collection, addDoc, getDocs } from '@angular/fire/firestore';
 import { from, map, Observable, of } from 'rxjs';
+
 import { environment } from '../../environments/environment';
+import { Firestore, collection, addDoc, getDocs } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'

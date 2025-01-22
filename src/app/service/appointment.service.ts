@@ -1,12 +1,14 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Appointment } from '../model/Appointment';
+import { from, map, Observable, of } from 'rxjs';
+
+import { environment } from '../../environments/environment';
 import {
   Firestore, collection, getDocs, addDoc, DocumentData,
   doc, updateDoc, deleteDoc
 } from '@angular/fire/firestore';
-import { from, map, Observable, of } from 'rxjs';
-import { environment } from '../../environments/environment'; // <-- Import środowiska
+
 
 @Injectable({
   providedIn: 'root',
