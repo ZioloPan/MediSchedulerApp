@@ -37,7 +37,20 @@
       "age": 22,
       "gender": "Male",
       "notes": "asd",
-      "isPayed": false
+      "isPayed": true
+    },
+    {
+      "id": "ff13",
+      "date": "2025-01-26",
+      "startTime": "16:00",
+      "endTime": "17:00",
+      "type": "First Visit",
+      "firstName": "s",
+      "lastName": "s",
+      "age": 0,
+      "gender": "Male",
+      "notes": "sad",
+      "isPayed": true
     }
   ],
   "availabilities": [
@@ -68,6 +81,20 @@
       "startDate": "2025-01-23",
       "startTime": "00:30",
       "endTime": "13:00"
+    },
+    {
+      "id": "26fe",
+      "type": "ONE_TIME",
+      "startDate": "2025-01-10",
+      "startTime": "01:00",
+      "endTime": "07:00"
+    },
+    {
+      "id": "06bc",
+      "type": "ONE_TIME",
+      "startDate": "2025-01-26",
+      "startTime": "01:30",
+      "endTime": "17:30"
     }
   ],
   "absences": [
@@ -90,6 +117,11 @@
       "id": "c155",
       "startDate": "2025-01-24",
       "endDate": "2025-01-25"
+    },
+    {
+      "id": "7e42",
+      "startDate": "2025-01-20",
+      "endDate": "2025-01-20"
     }
   ]
 }
