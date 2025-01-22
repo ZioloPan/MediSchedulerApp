@@ -24,14 +24,14 @@ export class CalendarComponent implements OnInit, OnDestroy {
   timeSlots: string[] = [];
   selectedWeek: Date[] = [];
   currentDayIndex: number | null = null;
-  currentSlotIndex: number | null = null; // Indeks aktualnego slotu do zaznaczenia linią
-  redLinePosition: string | null = null; // Pozycja czerwonej linii w procentach
-  private timeUpdater: any; // Referencja do `setInterval`
+  currentSlotIndex: number | null = null; 
+  redLinePosition: string | null = null; 
+  private timeUpdater: any; 
 
-  @Input() appointments: Appointment[] = []; // Właściwość do odbierania wizyt
+  @Input() appointments: Appointment[] = []; 
   @Input() availabilities: Availability[] = [];
   @Input() absences: Absence[] = [];
-  @Input() viewMode: 'doctor' | 'patient' = 'doctor'; // Domyślny tryb
+  @Input() viewMode: 'doctor' | 'patient' = 'doctor';
 
   constructor(
     private dialog: MatDialog,
@@ -42,15 +42,14 @@ export class CalendarComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.timeSlots = this.generateTimeSlots();
     this.initializeWeek();
-    this.updateCurrentTime(); // Ustaw aktualny czas
-    this.timeUpdater = setInterval(() => this.updateCurrentTime(), 60000); // Aktualizacja co minutę
-
+    this.updateCurrentTime();
+    this.timeUpdater = setInterval(() => this.updateCurrentTime(), 60000);
     console.log("MODE", this.viewMode)
   }
 
   ngOnDestroy(): void {
     if (this.timeUpdater) {
-      clearInterval(this.timeUpdater); // Usuń interwał po zniszczeniu komponentu
+      clearInterval(this.timeUpdater); 
     }
   }
 
@@ -77,7 +76,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
       return day;
     });
 
-    // Zaktualizuj `currentDayIndex`
     this.updateCurrentDayIndex();
   }
 
@@ -100,25 +98,21 @@ export class CalendarComponent implements OnInit, OnDestroy {
   private updateCurrentTime(): void {
     const now = new Date();
 
-    // Oblicz aktualny slot czasowy
     const timeString = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes() < 30 ? '00' : '30'}`;
     this.currentSlotIndex = this.timeSlots.findIndex((slot) => slot === timeString);
 
-    // Oblicz pozycję linii w bieżącym slocie czasowym
     const minutes = now.getMinutes();
-    const positionInSlot = (minutes % 30) / 30; // Wartość w zakresie 0-1
+    const positionInSlot = (minutes % 30) / 30; 
     this.redLinePosition = `${positionInSlot * 100}%`;
   }
 
   isAppointmentInSlot(appointment: Appointment, day: Date, slot: string): boolean {
-    const appointmentDate = new Date(appointment.date); // Konwersja daty wizyty
-    const appointmentStart = appointment.startTime; // Początek wizyty (HH:mm)
-    const appointmentEnd = appointment.endTime; // Koniec wizyty (HH:mm)
+    const appointmentDate = new Date(appointment.date); 
+    const appointmentStart = appointment.startTime; 
+    const appointmentEnd = appointment.endTime; 
     
-    // Sprawdzenie, czy data wizyty pasuje do dnia z kalendarza
     const isSameDay = appointmentDate.toDateString() === day.toDateString();
     
-    // Sprawdzenie, czy slot mieści się w zakresie czasu wizyty
     const isInTimeRange = slot >= appointmentStart && slot < appointmentEnd;
   
     return isSameDay && isInTimeRange;
@@ -128,23 +122,21 @@ export class CalendarComponent implements OnInit, OnDestroy {
     const now = new Date();
     const appointmentDate = new Date(appointment.date);
     const [hours, minutes] = appointment.endTime.split(':').map(Number);
-    appointmentDate.setHours(hours, minutes, 0, 0); // Ustaw koniec wizyty jako dokładny czas
+    appointmentDate.setHours(hours, minutes, 0, 0); 
   
-    return appointmentDate < now; // Zwróć true, jeśli wizyta się zakończyła
+    return appointmentDate < now; 
   }
 
   isAvailabilityInSlotForBackground(day: Date, slot: string): boolean {
     return this.availabilities.some(availability => {
-      // Ustawienie endDate na startDate w przypadku typu ONE_TIME
       const startDate = new Date(availability.startDate);
       const endDate =
         availability.type === 'ONE_TIME'
-          ? startDate // ONE_TIME: startDate to także endDate
+          ? startDate 
           : availability.endDate
           ? new Date(availability.endDate)
           : null;
   
-      // Normalizacja dat do północy
       const normalizeDate = (date: Date) => {
         const normalized = new Date(date);
         normalized.setHours(0, 0, 0, 0);
@@ -155,10 +147,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
       const normalizedStartDate = normalizeDate(startDate);
       const normalizedEndDate = endDate ? normalizeDate(endDate) : null;
   
-      // Sprawdzenie, czy dzień mieści się w zakresie dat
       const isWithinDateRange = (!normalizedEndDate || normalizedDay <= normalizedEndDate) && normalizedDay >= normalizedStartDate;
   
-      // Sprawdzenie, czy dzień tygodnia pasuje do dostępności cyklicznej
       const dayOfWeek = day.toLocaleDateString('en-US', { weekday: 'long' }) as 
         | 'Monday'
         | 'Tuesday'
@@ -171,7 +161,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
         availability.type === 'RECURRING' &&
         availability.daysOfWeek?.includes(dayOfWeek);
   
-      // Sprawdzenie, czy slot czasowy mieści się w przedziale dostępności
       const [slotHours, slotMinutes] = slot.split(':').map(Number);
       const [startHours, startMinutes] = availability.startTime.split(':').map(Number);
       const [endHours, endMinutes] = availability.endTime.split(':').map(Number);
@@ -183,18 +172,15 @@ export class CalendarComponent implements OnInit, OnDestroy {
       const isWithinTimeRange =
         slotTime >= availabilityStartTime && slotTime < availabilityEndTime;
   
-      // Wynik końcowy
       return isWithinDateRange && (availability.type === 'ONE_TIME' || matchesRecurringDay) && isWithinTimeRange;
     });
   }
 
   isDayCoveredByAbsence(day: Date): boolean {
     return this.absences.some(absence => {
-      // Konwersja daty na obiekt typu Date
       const startDate = new Date(absence.startDate);
       const endDate = absence.endDate ? new Date(absence.endDate) : null;
   
-      // Normalizacja dat
       const normalizeDate = (date: Date) => {
         const normalized = new Date(date);
         normalized.setHours(0, 0, 0, 0);
@@ -205,7 +191,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
       const normalizedStartDate = normalizeDate(startDate);
       const normalizedEndDate = endDate ? normalizeDate(endDate) : null;
   
-      // Sprawdzanie, czy dzień mieści się w zakresie absencji
       return (
         normalizedDay >= normalizedStartDate &&
         (normalizedEndDate ? normalizedDay <= normalizedEndDate : true)
@@ -266,7 +251,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
     const newStartDate = new Date(startOfCurrentWeek);
     newStartDate.setDate(startOfCurrentWeek.getDate() + increment);
 
-    // Generuj nowy tydzień
     this.selectedWeek = Array.from({ length: 7 }, (_, index) => {
       const day = new Date(newStartDate);
       day.setDate(newStartDate.getDate() + index);
@@ -274,19 +258,16 @@ export class CalendarComponent implements OnInit, OnDestroy {
     });
   }
 
-  // Obsługa przycisku "Poprzedni tydzień"
   onPreviousClick(): void {
     this.changeWeek('previous');
     this.updateCurrentDayIndex();
   }
 
-  // Obsługa przycisku "Następny tydzień"
   onNextClick(): void {
     this.changeWeek('next');
     this.updateCurrentDayIndex();
   }
 
-  // Funkcja wywoływana przy kliknięciu na slot
   onSlotClick(day: Date, slot: string): void {
     if (this.isDayCoveredByAbsence(day)) {
       return;
@@ -326,23 +307,18 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   onAppointmentClick(appointment: Appointment, event: MouseEvent): void {
-    // Zapobiegamy propagacji kliknięcia do rodzica (klik w slot)
     event.stopPropagation();
   
-    // Otwieramy okno dialogowe z pytaniem o potwierdzenie
     const dialogRef = this.dialog.open(ConfirmCancelDialogComponent, {
       width: '400px',
       data: {
         message: 'You are going to cancel an appointment. Are you sure?'
       }
     });
-  
-    // Po zamknięciu dialogu sprawdzamy, co wybrał użytkownik
+
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'yes') {
-        // Jeśli potwierdził, usuwamy wizytę z bazy
         this.appointmentService.delete(appointment).subscribe(() => {
-          // Po usunięciu odświeżamy listę wizyt
           this.loadAppointments();
         });
       }
