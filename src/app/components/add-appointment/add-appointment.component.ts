@@ -155,14 +155,14 @@ export class AddAppointmentComponent {
   
 
   save(): void {
-    const date = new Date(this.appointment.date);
-    date.setDate(date.getDate() + 1); 
+    const date = this.resetTimeToMidnight(new Date(this.appointment.date));
+    date.setDate(date.getDate() + 1);
   
     const appointmentToSave = {
       ...this.appointment,
       date: date.toISOString().split('T')[0], 
     };
-  
+    
     this.appointmentService.add(appointmentToSave).subscribe({
       next: (newAppointment) => {
         this.dialogRef.close(newAppointment);
@@ -175,5 +175,9 @@ export class AddAppointmentComponent {
 
   cancel(): void {
     this.dialogRef.close();
+  }
+
+  resetTimeToMidnight(date: Date): Date {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
   }
 }
